@@ -996,18 +996,27 @@
                 const cy = h / 2;
                 const gap = 4 * (window.devicePixelRatio || 1);
                 const bandW = w / BARS;
+                // Мягкий потолок: половина высоты canvas минус небольшой отступ.
+                // tanh не даёт клиповать большие басы, при этом мелкие значения
+                // (высокие частоты) проходят почти линейно — они не страдают.
+                const maxHalf = (h / 2) - 4;
                 for (let i = 0; i < BARS; i++) {
                     // На левой стороне: i=0 — у внешнего края (далеко от плеера, ВЫСОКАЯ частота),
                     // i=BARS-1 — у плеера (НИЗКАЯ частота). На правой — зеркально.
                     const freqIdx = isLeft ? (BARS - 1 - i) : i;
-                    const v = smoothed[freqIdx];
+                    // Лёгкий буст для верхних частот — у них амплитуда обычно меньше
+                    const hiBoost = 1 + 0.55 * (freqIdx / (BARS - 1));
+                    const v = smoothed[freqIdx] * hiBoost;
                     // Огибающая «лепестка»: длиннее ближе к плееру
                     const distFromPlayer = isLeft ? (BARS - 1 - i) : i; // 0 у плеера
                     const envelope = Math.cos((distFromPlayer / BARS) * (Math.PI / 2));
-                    // Базовый минимум полоски — еле заметная штрихов, чтобы силуэт был виден всегда
+                    // Базовый минимум полоски — еле заметная штриховка, чтобы силуэт был виден всегда
                     const baseLen = h * 0.04 * envelope;
-                    const dynLen = v * h * 0.62 * envelope;
-                    const halfLen = baseLen + dynLen;
+                    const dynLen = v * h * 0.85 * envelope;
+                    const rawLen = baseLen + dynLen;
+                    // soft-clip через tanh: маленькие значения проходят, большие плавно
+                    // прижимаются к maxHalf без визуального обрезания
+                    const halfLen = maxHalf * Math.tanh(rawLen / maxHalf);
 
                     const x = i * bandW + gap / 2;
                     const bw = Math.max(1, bandW - gap);
