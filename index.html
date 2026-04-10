@@ -54,7 +54,11 @@
             display: flex; align-items: center; justify-content: space-between;
         }
         .nav-logo { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; text-decoration: none; color: var(--white); }
-        .nav-logo img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+        .nav-logo img {
+            width: 54px; height: 54px; border-radius: 50%;
+            object-fit: cover; flex-shrink: 0;
+            transform: scale(1.18); transform-origin: center;
+        }
         .nav-logo span { color: var(--yellow); }
         .footer-brand .nav-logo { font-size: 1.4rem; }
         .footer-brand .nav-logo img { width: 60px; height: 60px; }
@@ -266,6 +270,7 @@
         .video-end-card img {
             width: 180px; height: 180px; border-radius: 50%;
             object-fit: cover;
+            transform: scale(1.18); transform-origin: center;
             box-shadow: 0 0 80px 12px rgba(255, 214, 0, 0.22),
                         0 0 180px 30px rgba(255, 214, 0, 0.10);
         }
