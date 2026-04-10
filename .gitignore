@@ -6,3 +6,7 @@ videos/*.MOV
 send_tg.py
 .DS_Store
 Thumbs.db
+vk_dump
+from_vk
+from_dima
+from_saved

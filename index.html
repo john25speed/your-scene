@@ -53,8 +53,11 @@
             padding: 0 40px; height: 70px;
             display: flex; align-items: center; justify-content: space-between;
         }
-        .nav-logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; }
+        .nav-logo { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; text-decoration: none; color: var(--white); }
+        .nav-logo img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
         .nav-logo span { color: var(--yellow); }
+        .footer-brand .nav-logo { font-size: 1.4rem; }
+        .footer-brand .nav-logo img { width: 48px; height: 48px; }
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { color: var(--light-gray); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
         .nav-links a:hover { color: var(--yellow); }
@@ -376,7 +379,7 @@
 
     <!-- NAV -->
     <nav>
-        <div class="nav-logo">ТВОЯ <span>СЦЕНА</span></div>
+        <a href="#" class="nav-logo"><img src="assets/logo.jpg" alt="Твоя Сцена">ТВОЯ <span>СЦЕНА</span></a>
         <ul class="nav-links" id="navLinks">
             <li><a href="#directions">Направления</a></li>
             <li><a href="#advantages">Преимущества</a></li>
@@ -694,7 +697,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
-                <div class="nav-logo">ТВОЯ <span>СЦЕНА</span></div>
+                <div class="nav-logo"><img src="assets/logo.jpg" alt="Твоя Сцена">ТВОЯ <span>СЦЕНА</span></div>
                 <p>Школа музыки в Сыктывкаре</p>
                 <p>ул. Карла Маркса, 192</p>
                 <p><a href="tel:+79121910650" style="color: var(--yellow); text-decoration: none; font-weight: 700;">+7 (912) 191-06-50</a></p>
