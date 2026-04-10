@@ -249,6 +249,18 @@
             background: #000;
         }
         .video-track video.active { opacity: 1; pointer-events: auto; }
+
+        /* ===== EQUALIZER OVERLAYS ===== */
+        .eq {
+            position: absolute; top: 0; bottom: 0;
+            width: 14%; pointer-events: none;
+            z-index: 4; opacity: 0; transition: opacity 0.4s;
+            mix-blend-mode: screen;
+        }
+        .eq.eq-left { left: 0; }
+        .eq.eq-right { right: 0; }
+        .eq.active { opacity: 1; }
+        .eq canvas { width: 100%; height: 100%; display: block; }
         .video-nav { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; }
         .video-arrow {
             width: 48px; height: 48px; background: transparent; border: 2px solid rgba(255,255,255,0.2);
@@ -554,6 +566,8 @@
                 <video src="videos/web/v10.mp4" controls preload="none" playsinline></video>
                 <video src="videos/web/v11.mp4" controls preload="none" playsinline></video>
                 <video src="videos/web/v12.mp4" controls preload="none" playsinline></video>
+                <div class="eq eq-left"><canvas></canvas></div>
+                <div class="eq eq-right"><canvas></canvas></div>
             </div>
             <div class="video-nav">
                 <button class="video-arrow" id="videoPrev">&larr;</button>
@@ -788,6 +802,140 @@
             currentVideo = (currentVideo - 1 + videos.length) % videos.length;
             showVideo(currentVideo);
         });
+
+        // ===== EQUALIZER (Web Audio API) =====
+        // Зеркальный эквалайзер: ось — горизонтальная середина видео,
+        // полоски растут одновременно вверх и вниз. Низкие частоты у краёв ролика
+        // (верх и низ), высокие — ближе к центру.
+        (function() {
+            let audioCtx = null;
+            let analyser = null;
+            const sourcesMap = new WeakMap();
+            const eqL = document.querySelector('.eq.eq-left');
+            const eqR = document.querySelector('.eq.eq-right');
+            const canL = eqL.querySelector('canvas');
+            const canR = eqR.querySelector('canvas');
+            const ctxL = canL.getContext('2d');
+            const ctxR = canR.getContext('2d');
+            let dataArr = null;
+            let rafId = null;
+            const BARS = 12;     // полос на сторону (видимая половина)
+            const TOTAL = BARS * 2; // зеркало
+            // Гладкие значения для плавной анимации
+            const smoothed = new Array(BARS).fill(0);
+
+            function resizeCanvases() {
+                for (const c of [canL, canR]) {
+                    const r = c.getBoundingClientRect();
+                    if (!r.width || !r.height) continue;
+                    c.width = Math.max(1, Math.floor(r.width * (window.devicePixelRatio || 1)));
+                    c.height = Math.max(1, Math.floor(r.height * (window.devicePixelRatio || 1)));
+                }
+            }
+            window.addEventListener('resize', resizeCanvases);
+
+            function ensureAudio() {
+                if (audioCtx) return;
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioCtx.createAnalyser();
+                    analyser.fftSize = 256;
+                    analyser.smoothingTimeConstant = 0.75;
+                    dataArr = new Uint8Array(analyser.frequencyBinCount);
+                } catch (e) { console.warn('AudioContext failed:', e); }
+            }
+
+            function connectVideo(v) {
+                if (!audioCtx) return;
+                if (sourcesMap.has(v)) return;
+                try {
+                    const src = audioCtx.createMediaElementSource(v);
+                    src.connect(analyser);
+                    analyser.connect(audioCtx.destination);
+                    sourcesMap.set(v, src);
+                } catch (e) {
+                    // Если уже создан — игнорируем
+                }
+            }
+
+            function draw() {
+                if (!analyser) { rafId = null; return; }
+                analyser.getByteFrequencyData(dataArr);
+                // Берём первые BARS бинов (низ-середина частот) и нормализуем
+                for (let i = 0; i < BARS; i++) {
+                    const raw = dataArr[i] / 255;
+                    smoothed[i] = smoothed[i] * 0.7 + raw * 0.3;
+                }
+
+                for (const [canvas, ctx] of [[canL, ctxL], [canR, ctxR]]) {
+                    const w = canvas.width, h = canvas.height;
+                    ctx.clearRect(0, 0, w, h);
+                    const cy = h / 2;
+                    const bandH = (h / 2) / BARS; // высота одной полоски (полуплоскость)
+                    for (let i = 0; i < BARS; i++) {
+                        // i = 0 — самая внутренняя полоска (у центра), низкая частота
+                        // i = BARS-1 — самая внешняя полоска (у края ролика), высокая частота
+                        const freqIdx = i; // 0..BARS-1
+                        const v = smoothed[freqIdx];
+                        const len = v * w * 1.05; // длина «выстрела» от внутреннего края
+                        const yTop = cy - (i + 1) * bandH;
+                        const yBot = cy + i * bandH;
+                        // Цвет: жёлтый с интенсивностью от уровня
+                        const alpha = 0.55 + v * 0.45;
+                        const grad = ctx.createLinearGradient(0, 0, w, 0);
+                        grad.addColorStop(0, `rgba(255, 230, 60, ${alpha})`);
+                        grad.addColorStop(0.7, `rgba(255, 214, 0, ${alpha * 0.85})`);
+                        grad.addColorStop(1, `rgba(255, 180, 0, 0)`);
+                        ctx.fillStyle = grad;
+                        const gap = Math.max(2, bandH * 0.18);
+                        // Верхняя половина (отражение)
+                        if (canvas === canL) {
+                            ctx.fillRect(0, yTop + gap / 2, len, bandH - gap);
+                            ctx.fillRect(0, yBot + gap / 2, len, bandH - gap);
+                        } else {
+                            // правый эквалайзер — растёт справа налево
+                            ctx.fillRect(w - len, yTop + gap / 2, len, bandH - gap);
+                            ctx.fillRect(w - len, yBot + gap / 2, len, bandH - gap);
+                        }
+                    }
+                }
+                rafId = requestAnimationFrame(draw);
+            }
+
+            function startAnim() {
+                if (rafId) return;
+                resizeCanvases();
+                eqL.classList.add('active');
+                eqR.classList.add('active');
+                draw();
+            }
+            function stopAnim() {
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = null;
+                eqL.classList.remove('active');
+                eqR.classList.remove('active');
+                if (ctxL && canL) ctxL.clearRect(0, 0, canL.width, canL.height);
+                if (ctxR && canR) ctxR.clearRect(0, 0, canR.width, canR.height);
+            }
+
+            videos.forEach(v => {
+                v.addEventListener('play', () => {
+                    ensureAudio();
+                    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+                    connectVideo(v);
+                    startAnim();
+                });
+                v.addEventListener('pause', () => {
+                    // Если ни одно видео не играет — стоп
+                    const anyPlaying = Array.from(videos).some(x => !x.paused);
+                    if (!anyPlaying) stopAnim();
+                });
+                v.addEventListener('ended', () => {
+                    const anyPlaying = Array.from(videos).some(x => !x.paused);
+                    if (!anyPlaying) stopAnim();
+                });
+            });
+        })();
 
         // ===== FLOATING MUSICAL NOTES (Canvas) =====
         const canvas = document.getElementById('notesCanvas');
