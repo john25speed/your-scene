@@ -251,6 +251,7 @@
             background: #000;
         }
         .video-track video.active { opacity: 1; pointer-events: auto; }
+        .video-track video.fading { transition: opacity 1.2s ease-out; opacity: 0; }
 
         /* ===== SCREEN GLOW (свет от экрана) ===== */
         .video-carousel::before {
@@ -265,6 +266,7 @@
             opacity: 0; transition: opacity 0.6s;
         }
         .video-carousel.playing::before { opacity: 1; }
+        .video-carousel.fading::before { transition: opacity 1.2s ease-out; opacity: 0; }
 
         /* ===== EQUALIZER (по бокам, форма лепестка) ===== */
         .eq {
@@ -275,6 +277,7 @@
         .eq.eq-left { left: 8px; }
         .eq.eq-right { right: 8px; }
         .eq.active { opacity: 1; }
+        .eq.fading { transition: opacity 1.2s ease-out; opacity: 0; }
         .eq canvas { width: 100%; height: 100%; display: block; }
         .video-nav { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; }
         .video-arrow {
@@ -836,6 +839,8 @@
         (function() {
             let audioCtx = null;
             let analyser = null;
+            let gainNode = null;
+            const FADE_DURATION = 1.2; // секунды
             const sourcesMap = new WeakMap();
             const carousel = document.querySelector('.video-carousel');
             const track = document.querySelector('.video-track');
@@ -880,6 +885,11 @@
                     analyser = audioCtx.createAnalyser();
                     analyser.fftSize = 512;
                     analyser.smoothingTimeConstant = 0.78;
+                    gainNode = audioCtx.createGain();
+                    gainNode.gain.value = 1;
+                    // source -> analyser -> gain -> destination
+                    analyser.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
                     dataArr = new Uint8Array(analyser.frequencyBinCount);
                 } catch (e) { console.warn('AudioContext failed:', e); }
             }
@@ -890,9 +900,36 @@
                 try {
                     const src = audioCtx.createMediaElementSource(v);
                     src.connect(analyser);
-                    analyser.connect(audioCtx.destination);
                     sourcesMap.set(v, src);
                 } catch (e) { /* уже создан */ }
+            }
+
+            function fadeOutAudio() {
+                if (!audioCtx || !gainNode) return;
+                const now = audioCtx.currentTime;
+                try {
+                    gainNode.gain.cancelScheduledValues(now);
+                    gainNode.gain.setValueAtTime(gainNode.gain.value, now);
+                    gainNode.gain.linearRampToValueAtTime(0.0001, now + FADE_DURATION);
+                } catch (e) {}
+            }
+            function resetAudioGain() {
+                if (!audioCtx || !gainNode) return;
+                const now = audioCtx.currentTime;
+                try {
+                    gainNode.gain.cancelScheduledValues(now);
+                    gainNode.gain.setValueAtTime(1, now);
+                } catch (e) {}
+            }
+            function fadeVisuals() {
+                eqL.classList.add('fading');
+                eqR.classList.add('fading');
+                carousel.classList.add('fading');
+            }
+            function resetVisualFade() {
+                eqL.classList.remove('fading');
+                eqR.classList.remove('fading');
+                carousel.classList.remove('fading');
             }
 
             // Сэмплируем частотный диапазон [0..BARS-1] из бинов analyser
@@ -979,6 +1016,11 @@
                     ensureAudio();
                     if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
                     connectVideo(v);
+                    // сброс затухания при новом проигрывании
+                    v.classList.remove('fading');
+                    v._fadeStarted = false;
+                    resetAudioGain();
+                    resetVisualFade();
                     startAnim();
                 });
                 v.addEventListener('pause', () => {
@@ -986,8 +1028,36 @@
                     if (!anyPlaying) stopAnim();
                 });
                 v.addEventListener('ended', () => {
-                    const anyPlaying = Array.from(videos).some(x => !x.paused);
-                    if (!anyPlaying) stopAnim();
+                    // если не успели поймать timeupdate — добиваем здесь
+                    v.classList.add('fading');
+                    fadeVisuals();
+                    fadeOutAudio();
+                    setTimeout(() => {
+                        v.classList.remove('fading');
+                        resetVisualFade();
+                        const anyPlaying = Array.from(videos).some(x => !x.paused);
+                        if (!anyPlaying) stopAnim();
+                        resetAudioGain();
+                    }, FADE_DURATION * 1000 + 100);
+                });
+                v.addEventListener('seeking', () => {
+                    // если перемотал назад — отменяем fade
+                    if (v.duration && v.currentTime < v.duration - FADE_DURATION - 0.2) {
+                        v.classList.remove('fading');
+                        v._fadeStarted = false;
+                        resetAudioGain();
+                        resetVisualFade();
+                    }
+                });
+                v.addEventListener('timeupdate', () => {
+                    if (!v.duration || isNaN(v.duration)) return;
+                    const remain = v.duration - v.currentTime;
+                    if (remain <= FADE_DURATION && !v._fadeStarted && !v.paused) {
+                        v._fadeStarted = true;
+                        v.classList.add('fading');
+                        fadeVisuals();
+                        fadeOutAudio();
+                    }
                 });
                 v.addEventListener('loadedmetadata', syncEqGeometry);
             });
