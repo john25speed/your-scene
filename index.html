@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Scene — Школа музыки в Сыктывкаре | Гитара, Вокал, Барабаны, Фортепиано</title>
-    <meta name="description" content="Индивидуальные занятия музыкой для взрослых и детей в Сыктывкаре. Гитара, вокал, барабаны, фортепиано, бас-гитара, укулеле. Концерты учеников на настоящей сцене.">
+    <title>Твоя Сцена — Школа музыки в Сыктывкаре | Гитара, Вокал, Барабаны, Фортепиано</title>
+    <meta name="description" content="Школа музыки «Твоя Сцена» в Сыктывкаре. Индивидуальные занятия для взрослых и детей. Гитара, вокал, барабаны, фортепиано, бас-гитара, укулеле. Концерты учеников на настоящей сцене.">
+    <meta property="og:title" content="Твоя Сцена — Школа музыки в Сыктывкаре">
+    <meta property="og:description" content="Научим играть с нуля и выведем на сцену за 2–3 месяца. Индивидуальные занятия для взрослых и детей.">
+    <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -50,7 +53,7 @@
             padding: 0 40px; height: 70px;
             display: flex; align-items: center; justify-content: space-between;
         }
-        .nav-logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; }
         .nav-logo span { color: var(--yellow); }
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { color: var(--light-gray); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
@@ -373,7 +376,7 @@
 
     <!-- NAV -->
     <nav>
-        <div class="nav-logo">YOUR <span>SCENE</span></div>
+        <div class="nav-logo">ТВОЯ <span>СЦЕНА</span></div>
         <ul class="nav-links" id="navLinks">
             <li><a href="#directions">Направления</a></li>
             <li><a href="#advantages">Преимущества</a></li>
@@ -554,7 +557,7 @@
                 <span class="video-counter"><span id="videoCurrent">1</span> / <span id="videoTotal">12</span></span>
                 <button class="video-arrow" id="videoNext">&rarr;</button>
             </div>
-            <div class="video-label" id="videoLabel">Выступление учеников Your Scene</div>
+            <div class="video-label" id="videoLabel">Выступление учеников «Твоя Сцена»</div>
         </div>
     </section>
 
@@ -691,12 +694,12 @@
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
-                <div class="nav-logo">YOUR <span>SCENE</span></div>
+                <div class="nav-logo">ТВОЯ <span>СЦЕНА</span></div>
                 <p>Школа музыки в Сыктывкаре</p>
                 <p>ул. Карла Маркса, 192</p>
                 <p><a href="tel:+79121910650" style="color: var(--yellow); text-decoration: none; font-weight: 700;">+7 (912) 191-06-50</a></p>
                 <div class="footer-social">
-                    <a href="https://vk.com/your_scene_sykt" target="_blank" aria-label="VK">VK</a>
+                    <a href="https://vk.com/your_scene_11sykt" target="_blank" aria-label="VK">VK</a>
                 </div>
             </div>
             <div class="footer-links">
@@ -711,12 +714,12 @@
             <div class="footer-links">
                 <h4>Контакты</h4>
                 <a href="tel:+79121910650">+7 (912) 191-06-50</a>
-                <a href="https://vk.com/your_scene_sykt" target="_blank">VK сообщество</a>
+                <a href="https://vk.com/your_scene_11sykt" target="_blank">VK сообщество</a>
                 <a href="#">г. Сыктывкар, ул. Карла Маркса, 192</a>
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 Your Scene. Школа музыки в Сыктывкаре.
+            &copy; 2026 «Твоя Сцена». Школа музыки в Сыктывкаре.
         </div>
     </footer>
 
@@ -771,7 +774,7 @@
             videos[index].classList.add('active');
             videos[index].preload = 'metadata';
             currentEl.textContent = index + 1;
-            labelEl.textContent = `Выступление #${index + 1} — ученик Your Scene`;
+            labelEl.textContent = `Выступление #${index + 1} — ученик «Твоя Сцена»`;
         }
 
         document.getElementById('videoNext').addEventListener('click', () => {
