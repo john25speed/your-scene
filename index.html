@@ -394,6 +394,10 @@
         .cta-form .privacy { font-size: 0.75rem; color: var(--gray); }
         .cta-form .privacy a { color: var(--yellow); text-decoration: none; }
         .cta-spots { display: flex; align-items: center; justify-content: center; gap: 8px; color: #ff6b6b; font-size: 0.85rem; font-weight: 700; }
+        .form-status { padding: 14px 18px; font-size: 0.9rem; font-weight: 600; text-align: center; }
+        .form-status.success { background: rgba(0, 200, 100, 0.12); border: 1px solid rgba(0, 200, 100, 0.35); color: #4eff9b; }
+        .form-status.error { background: rgba(255, 80, 80, 0.12); border: 1px solid rgba(255, 80, 80, 0.35); color: #ff8b8b; }
+        .cta-form .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
         /* ===== FOOTER ===== */
         footer { padding: 60px 40px 30px; border-top: 1px solid rgba(255, 255, 255, 0.06); position: relative; z-index: 2; }
@@ -745,7 +749,7 @@
         <h2>Запишись на <span>пробный урок</span></h2>
         <p>Бесплатно. 30 минут. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
         <form class="cta-form" id="signupForm">
-            <input type="text" name="name" placeholder="Ваше имя" required>
+            <input type="text" name="name" placeholder="Ваше имя" required minlength="2" maxlength="60">
             <input type="tel" name="phone" placeholder="Телефон" required>
             <select name="direction" required>
                 <option value="" disabled selected>Выберите направление</option>
@@ -762,9 +766,12 @@
                 <option value="teen">Подросток (13-17 лет)</option>
                 <option value="adult">Взрослый (18+)</option>
             </select>
-            <button type="submit" class="btn-primary">Записаться на бесплатный урок</button>
+            <!-- honeypot for bots: visible only to crawlers -->
+            <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
+            <button type="submit" class="btn-primary" id="signupBtn">Записаться на бесплатный урок</button>
             <div class="cta-spots"><span class="urgency-dot"></span> Перезвоним за 10 минут · Без спама</div>
             <div class="privacy">Нажимая кнопку, вы соглашаетесь с <a href="#">обработкой персональных данных</a></div>
+            <div class="form-status" id="formStatus" hidden></div>
         </form>
     </section>
 
@@ -814,11 +821,53 @@
         });
 
         // ===== FORM =====
-        document.getElementById('signupForm').addEventListener('submit', (e) => {
+        const FORM_ENDPOINT = 'https://your-scene-form.evgeniysoshenko.workers.dev';
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = new FormData(e.target).get('name');
-            alert(`${name}, спасибо за заявку! Мы свяжемся с вами в ближайшее время.`);
-            e.target.reset();
+            const form = e.target;
+            const btn = document.getElementById('signupBtn');
+            const status = document.getElementById('formStatus');
+            const fd = new FormData(form);
+            const data = {
+                name: (fd.get('name') || '').trim(),
+                phone: (fd.get('phone') || '').trim(),
+                direction: fd.get('direction') || '',
+                age: fd.get('age') || '',
+                website: fd.get('website') || '', // honeypot
+            };
+            status.hidden = true;
+            status.className = 'form-status';
+            btn.disabled = true;
+            const oldText = btn.textContent;
+            btn.textContent = 'Отправляем...';
+            try {
+                const r = await fetch(FORM_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+                const j = await r.json().catch(() => ({}));
+                if (r.ok && j.ok) {
+                    status.className = 'form-status success';
+                    status.textContent = '✓ Заявка принята! Перезвоним в течение 10 минут.';
+                    status.hidden = false;
+                    form.reset();
+                } else {
+                    let msg = 'Что-то пошло не так. Позвоните нам: +7 (912) 191-06-50';
+                    if (j.error === 'too_fast') msg = 'Подождите 30 секунд перед повторной отправкой.';
+                    if (j.error === 'invalid_fields') msg = 'Проверьте имя и телефон — что-то введено некорректно.';
+                    status.className = 'form-status error';
+                    status.textContent = msg;
+                    status.hidden = false;
+                }
+            } catch (err) {
+                status.className = 'form-status error';
+                status.textContent = 'Нет связи. Позвоните нам: +7 (912) 191-06-50';
+                status.hidden = false;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = oldText;
+            }
         });
 
         // ===== SCROLL REVEAL =====
