@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Scene — Школа музыки в Сыктывкаре | Гитара, Вокал, Барабаны, Фортепиано</title>
+    <meta name="description" content="Индивидуальные занятия музыкой для взрослых и детей в Сыктывкаре. Гитара, вокал, барабаны, фортепиано, бас-гитара, укулеле. Концерты учеников на настоящей сцене.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --black: #0a0a0a;
+            --dark: #111111;
+            --dark-card: #1a1a1a;
+            --yellow: #FFD600;
+            --yellow-hover: #FFE640;
+            --white: #ffffff;
+            --gray: #999999;
+            --light-gray: #cccccc;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ===== FLOATING NOTES CANVAS ===== */
+        #notesCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.35;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 214, 0, 0.1);
+            padding: 0 40px; height: 70px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-logo span { color: var(--yellow); }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: var(--light-gray); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--yellow); }
+        .nav-cta { background: var(--yellow); color: var(--black); border: none; padding: 12px 28px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; text-decoration: none; }
+        .nav-cta:hover { background: var(--yellow-hover); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 214, 0, 0.3); }
+        .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 5px; }
+        .burger span { width: 25px; height: 2px; background: var(--white); transition: 0.3s; }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 120px 20px 80px; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 214, 0, 0.06) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-badge { display: inline-block; background: rgba(255, 214, 0, 0.15); border: 1px solid rgba(255, 214, 0, 0.3); color: var(--yellow); padding: 8px 24px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; }
+        .hero h1 { font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; line-height: 1.05; margin-bottom: 24px; text-transform: uppercase; }
+        .hero h1 span { color: var(--yellow); display: block; }
+        .hero p { font-size: 1.15rem; color: var(--gray); max-width: 600px; margin: 0 auto 20px; line-height: 1.7; }
+        .hero-urgency { display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 50, 50, 0.1); border: 1px solid rgba(255, 50, 50, 0.3); color: #ff6b6b; padding: 10px 24px; font-size: 0.85rem; font-weight: 600; margin-bottom: 30px; }
+        .urgency-dot { width: 8px; height: 8px; background: #ff4444; border-radius: 50%; display: inline-block; animation: blink 1.5s ease-in-out infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { background: var(--yellow); color: var(--black); border: none; padding: 18px 48px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: var(--yellow-hover); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(255, 214, 0, 0.35); }
+        .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255, 255, 255, 0.3); padding: 16px 44px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
+        .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
+        .hero-micro-proof { margin-top: 16px; color: var(--gray); font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; }
+        .hero-micro-fast { margin-top: 14px; color: var(--light-gray); font-size: 0.85rem; font-weight: 600; }
+
+        /* ===== TRIAL LESSON BLOCK ===== */
+        .trial-lesson { padding: 90px 40px; background: linear-gradient(180deg, var(--black) 0%, rgba(255, 214, 0, 0.04) 100%); position: relative; z-index: 2; }
+        .trial-content { max-width: 800px; margin: 0 auto; text-align: center; }
+        .trial-content h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; text-transform: uppercase; margin-bottom: 12px; line-height: 1.15; }
+        .trial-content h2 span { color: var(--yellow); }
+        .trial-content > p { color: var(--gray); font-size: 1rem; margin-bottom: 40px; }
+        .trial-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 0 auto 40px; max-width: 700px; text-align: left; }
+        .trial-item { display: flex; align-items: flex-start; gap: 16px; background: var(--dark-card); border: 1px solid rgba(255, 214, 0, 0.12); padding: 20px 22px; }
+        .trial-num { color: var(--yellow); font-size: 1.6rem; font-weight: 900; line-height: 1; flex-shrink: 0; }
+        .trial-item span.trial-text { color: var(--white); font-size: 0.92rem; line-height: 1.45; font-weight: 600; }
+
+        /* ===== INLINE CTA REPEATS ===== */
+        .cta-repeat { padding: 60px 40px; text-align: center; background: var(--dark); position: relative; z-index: 2; }
+        .cta-repeat .btn-primary { font-size: 1.05rem; padding: 20px 50px; }
+        .cta-repeat-note { color: var(--gray); font-size: 0.85rem; margin-top: 14px; font-weight: 600; }
+
+        /* ===== STICKY MOBILE CTA ===== */
+        .sticky-cta {
+            display: none;
+            position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+            background: var(--yellow); color: var(--black);
+            padding: 16px 20px; text-align: center;
+            font-family: 'Montserrat', sans-serif; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1px;
+            font-size: 0.95rem; text-decoration: none;
+            box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.5);
+        }
+        .sticky-cta:active { background: var(--yellow-hover); }
+
+        /* ===== SECTION COMMON ===== */
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; margin-bottom: 16px; }
+        .section-title h2 span { color: var(--yellow); }
+        .section-title p { color: var(--gray); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+        /* ===== DIRECTIONS — CYCLING HOVER ===== */
+        .directions { padding: 100px 40px; position: relative; z-index: 2; }
+        .directions-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 24px; max-width: 1200px; margin: 0 auto;
+        }
+
+        .direction-card {
+            background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0; text-align: center; transition: all 0.4s;
+            position: relative; overflow: hidden; cursor: pointer;
+            min-height: 360px; display: flex; flex-direction: column;
+        }
+        .direction-card.simple {
+            min-height: auto;
+            padding: 44px 28px 40px;
+            align-items: center; justify-content: center;
+        }
+        .direction-card.simple .direction-icon { font-size: 3rem; margin-bottom: 18px; display: block; }
+        .direction-card.simple h3 { font-size: 1.35rem; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
+        .direction-card.simple p { color: var(--light-gray); font-size: 0.95rem; line-height: 1.55; }
+        .direction-card.simple p strong { color: var(--yellow); font-weight: 700; }
+        .direction-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--yellow); transform: scaleX(0); transition: transform 0.4s; z-index: 3;
+        }
+        .direction-card:hover::before { transform: scaleX(1); }
+        .direction-card:hover { border-color: rgba(255, 214, 0, 0.2); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); }
+
+        /* Default state — icon + title + desc */
+        .dc-default {
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px 24px; transition: opacity 0.4s, transform 0.4s;
+        }
+        .dc-default .direction-icon { font-size: 3rem; margin-bottom: 16px; }
+        .dc-default h3 { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+        .dc-default p { color: var(--gray); font-size: 0.88rem; line-height: 1.5; }
+
+        /* Overlay states — cycling on hover */
+        .dc-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 30px 24px; opacity: 0; transition: opacity 0.5s;
+            z-index: 2;
+        }
+        .dc-overlay.active { opacity: 1; }
+
+        /* State 1: Quote */
+        .dc-quote {
+            background: rgba(10, 10, 10, 0.92);
+        }
+        .dc-quote blockquote {
+            font-style: italic; color: var(--light-gray); font-size: 0.95rem;
+            line-height: 1.6; margin-bottom: 16px; max-width: 240px;
+        }
+        .dc-quote blockquote::before { content: '\201C'; color: var(--yellow); font-size: 2rem; font-family: Georgia, serif; display: block; margin-bottom: 8px; }
+        .dc-quote cite { color: var(--yellow); font-style: normal; font-weight: 700; font-size: 0.8rem; }
+
+        /* State 2: Fact */
+        .dc-fact {
+            background: rgba(10, 10, 10, 0.92);
+        }
+        .dc-fact .fact-icon { font-size: 2.5rem; margin-bottom: 16px; }
+        .dc-fact .fact-text { color: var(--white); font-size: 0.95rem; font-weight: 600; line-height: 1.6; max-width: 240px; }
+        .dc-fact .fact-label { color: var(--yellow); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+
+        /* State 3: Emotion / Soul */
+        .dc-soul {
+            background: linear-gradient(135deg, rgba(255, 214, 0, 0.12) 0%, rgba(10,10,10,0.95) 100%);
+        }
+        .dc-soul .soul-word {
+            font-size: 2rem; font-weight: 900; text-transform: uppercase;
+            color: var(--yellow); letter-spacing: 4px; margin-bottom: 16px;
+        }
+        .dc-soul .soul-text {
+            color: var(--light-gray); font-size: 0.88rem; line-height: 1.6;
+            max-width: 240px; font-style: italic;
+        }
+
+        /* Hover indicator dots */
+        .dc-dots {
+            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 6px; z-index: 5;
+        }
+        .dc-dots span {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(255,255,255,0.2); transition: background 0.3s;
+        }
+        .dc-dots span.active { background: var(--yellow); }
+
+        /* ===== PAIN SECTION ===== */
+        .pain-section { padding: 100px 40px; background: linear-gradient(180deg, var(--black) 0%, rgba(255, 214, 0, 0.03) 100%); text-align: center; position: relative; z-index: 2; }
+        .pain-content { max-width: 700px; margin: 0 auto; }
+        .pain-content h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; text-transform: uppercase; margin-bottom: 20px; line-height: 1.2; }
+        .pain-content h2 span { color: var(--yellow); }
+        .pain-content p { color: var(--gray); font-size: 1.1rem; margin-bottom: 30px; line-height: 1.7; }
+
+        /* ===== ADVANTAGES ===== */
+        .advantages { padding: 100px 40px; background: var(--dark); position: relative; z-index: 2; }
+        .advantages-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; }
+        .advantage-item { display: flex; gap: 20px; align-items: flex-start; }
+        .advantage-number { font-size: 3rem; font-weight: 900; color: var(--yellow); line-height: 1; flex-shrink: 0; width: 70px; }
+        .advantage-item h3 { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
+        .advantage-item p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+        .advantage-killer { grid-column: 1 / -1; background: rgba(255, 214, 0, 0.05); border: 1px solid rgba(255, 214, 0, 0.15); padding: 30px; }
+        .advantage-killer h3 { color: var(--yellow); }
+
+        /* ===== VIDEO CAROUSEL ===== */
+        .video-section { padding: 100px 40px; position: relative; z-index: 2; }
+        .video-carousel { max-width: 800px; margin: 0 auto; position: relative; }
+        .video-track {
+            overflow: hidden; border: 1px solid rgba(255, 214, 0, 0.2);
+            aspect-ratio: 16/9; background: var(--dark-card); position: relative;
+        }
+        .video-track video {
+            width: 100%; height: 100%; object-fit: cover;
+            position: absolute; top: 0; left: 0;
+            opacity: 0; transition: opacity 0.5s; pointer-events: none;
+            background: #000;
+        }
+        .video-track video.active { opacity: 1; pointer-events: auto; }
+        .video-nav { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; }
+        .video-arrow {
+            width: 48px; height: 48px; background: transparent; border: 2px solid rgba(255,255,255,0.2);
+            color: var(--white); font-size: 1.2rem; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; transition: all 0.3s; font-family: 'Montserrat', sans-serif;
+        }
+        .video-arrow:hover { border-color: var(--yellow); color: var(--yellow); }
+        .video-counter { font-size: 0.85rem; color: var(--gray); font-weight: 600; letter-spacing: 2px; }
+        .video-label { text-align: center; margin-top: 12px; color: var(--light-gray); font-size: 0.95rem; font-weight: 600; }
+
+        /* ===== CONCERTS ===== */
+        .concerts { padding: 100px 40px; position: relative; z-index: 2; }
+        .concerts-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .concerts-text h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900; text-transform: uppercase; margin-bottom: 20px; line-height: 1.1; }
+        .concerts-text h2 span { color: var(--yellow); }
+        .concerts-text p { color: var(--gray); font-size: 1rem; line-height: 1.8; margin-bottom: 16px; }
+        .concerts-text .highlight { color: var(--white); font-weight: 700; }
+        .concerts-visual { position: relative; height: 400px; display: flex; align-items: center; justify-content: center; }
+        .stage-graphic { width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255, 214, 0, 0.1) 0%, rgba(255, 214, 0, 0.02) 100%); border: 1px solid rgba(255, 214, 0, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        .stage-graphic::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60%; height: 3px; background: var(--yellow); }
+        .stage-emoji { font-size: 5rem; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .stage-text { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--yellow); }
+        .live-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,0,0,0.15); border: 1px solid rgba(255,0,0,0.3); color: #ff4444; padding: 6px 16px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-top: 12px; }
+
+        /* ===== STATS ===== */
+        .stats { padding: 80px 40px; background: var(--yellow); color: var(--black); position: relative; z-index: 2; }
+        .stats-grid { display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 3.5rem; font-weight: 900; display: block; line-height: 1; }
+        .stat-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-top: 8px; }
+
+        /* ===== HEALTH BENEFITS ===== */
+        .health { padding: 100px 40px; position: relative; z-index: 2; }
+        .health-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1000px; margin: 0 auto; }
+        .health-card { background: var(--dark-card); border: 1px solid rgba(255,255,255,0.06); padding: 40px 32px; position: relative; overflow: hidden; }
+        .health-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--yellow); }
+        .health-card .card-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+        .health-card h3 { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; margin-bottom: 16px; }
+        .health-card h3 span { color: var(--yellow); }
+        .health-list { list-style: none; }
+        .health-list li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--light-gray); font-size: 0.9rem; line-height: 1.5; padding-left: 20px; position: relative; }
+        .health-list li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; background: var(--yellow); }
+        .health-source { margin-top: 16px; font-size: 0.72rem; color: var(--gray); font-style: italic; }
+
+        /* ===== FOR WHO ===== */
+        .for-who { padding: 100px 40px; background: var(--dark); position: relative; z-index: 2; }
+        .for-who-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+        .for-who-card { background: var(--black); border: 1px solid rgba(255, 255, 255, 0.06); padding: 36px 28px; transition: all 0.3s; }
+        .for-who-card:hover { border-color: rgba(255, 214, 0, 0.3); }
+        .for-who-card .emoji { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+        .for-who-card h3 { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; }
+        .for-who-card p { color: var(--gray); font-size: 0.88rem; line-height: 1.6; }
+
+        /* ===== QUOTE ===== */
+        .quote-section { padding: 100px 40px; text-align: center; position: relative; z-index: 2; }
+        .quote-section blockquote { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 700; max-width: 800px; margin: 0 auto; line-height: 1.5; position: relative; }
+        .quote-section blockquote::before { content: '\201C'; font-size: 6rem; color: var(--yellow); position: absolute; top: -40px; left: -20px; font-family: Georgia, serif; line-height: 1; }
+        .quote-section blockquote span { color: var(--yellow); }
+
+        /* ===== OBJECTIONS ===== */
+        .objections { padding: 100px 40px; position: relative; z-index: 2; }
+        .objections-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 900px; margin: 0 auto; }
+        .objection-card { background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.06); padding: 32px 28px; transition: all 0.3s; }
+        .objection-card:hover { border-color: rgba(255, 214, 0, 0.2); }
+        .objection-q { font-size: 1.05rem; font-weight: 700; color: var(--gray); margin-bottom: 16px; font-style: italic; }
+        .objection-a { font-size: 0.95rem; color: var(--white); line-height: 1.6; font-weight: 600; }
+
+        /* ===== CTA ===== */
+        .cta-section { padding: 100px 40px; background: var(--dark); text-align: center; position: relative; z-index: 2; }
+        .cta-section h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; text-transform: uppercase; margin-bottom: 16px; }
+        .cta-section h2 span { color: var(--yellow); }
+        .cta-section > p { color: var(--gray); font-size: 1.1rem; margin-bottom: 50px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .cta-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+        .cta-form input, .cta-form select { background: var(--black); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--white); padding: 18px 24px; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.3s; }
+        .cta-form input::placeholder { color: var(--gray); }
+        .cta-form input:focus, .cta-form select:focus { border-color: var(--yellow); }
+        .cta-form select { appearance: none; cursor: pointer; }
+        .cta-form select option { background: var(--dark); }
+        .cta-form .btn-primary { width: 100%; font-size: 1.05rem; padding: 20px; }
+        .cta-form .privacy { font-size: 0.75rem; color: var(--gray); }
+        .cta-form .privacy a { color: var(--yellow); text-decoration: none; }
+        .cta-spots { display: flex; align-items: center; justify-content: center; gap: 8px; color: #ff6b6b; font-size: 0.85rem; font-weight: 700; }
+
+        /* ===== FOOTER ===== */
+        footer { padding: 60px 40px 30px; border-top: 1px solid rgba(255, 255, 255, 0.06); position: relative; z-index: 2; }
+        .footer-content { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 40px; }
+        .footer-brand .nav-logo { margin-bottom: 12px; }
+        .footer-brand p { color: var(--gray); font-size: 0.85rem; margin-bottom: 4px; }
+        .footer-links h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; color: var(--yellow); }
+        .footer-links a { display: block; color: var(--gray); text-decoration: none; font-size: 0.88rem; margin-bottom: 8px; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--yellow); }
+        .footer-social { display: flex; gap: 16px; margin-top: 12px; }
+        .footer-social a { width: 42px; height: 42px; border: 1px solid rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1rem; transition: all 0.3s; color: var(--white); }
+        .footer-social a:hover { border-color: var(--yellow); background: rgba(255, 214, 0, 0.1); }
+        .footer-bottom { text-align: center; padding-top: 40px; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.06); color: var(--gray); font-size: 0.8rem; }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+            nav { padding: 0 20px; }
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; right: 0; background: rgba(10, 10, 10, 0.98); flex-direction: column; padding: 20px; gap: 20px; border-bottom: 1px solid rgba(255, 214, 0, 0.1); }
+            .nav-links.active { display: flex; }
+            .burger { display: flex; }
+            .nav-cta { display: none; }
+            .hero { padding: 100px 20px 60px; }
+            .directions, .advantages, .concerts, .for-who, .quote-section, .cta-section, .pain-section, .objections, .health, .video-section, .trial-lesson { padding: 70px 20px; }
+            .cta-repeat { padding: 50px 20px 110px; }
+            .trial-list { grid-template-columns: 1fr; gap: 14px; }
+            .sticky-cta { display: block; }
+            footer { padding-bottom: 100px; }
+            body { padding-bottom: 70px; }
+            .directions-grid { grid-template-columns: 1fr; }
+            .advantages-grid { grid-template-columns: 1fr; gap: 30px; }
+            .concerts-content { grid-template-columns: 1fr; gap: 40px; }
+            .concerts-visual { height: 250px; }
+            .stats-grid { gap: 40px; }
+            .stat-number { font-size: 2.5rem; }
+            .footer-content { flex-direction: column; gap: 30px; }
+            .health-grid { grid-template-columns: 1fr; }
+            #notesCanvas { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating musical notes -->
+    <canvas id="notesCanvas"></canvas>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-logo">YOUR <span>SCENE</span></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#directions">Направления</a></li>
+            <li><a href="#advantages">Преимущества</a></li>
+            <li><a href="#video">Выступления</a></li>
+            <li><a href="#health">Польза</a></li>
+            <li><a href="#signup">Записаться</a></li>
+        </ul>
+        <a href="#signup" class="nav-cta">Пробный урок</a>
+        <button class="burger" id="burger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Школа музыки в Сыктывкаре</div>
+            <h1>Научим играть с нуля и выведем <span>на сцену</span> за 2&ndash;3 месяца</h1>
+            <p>Индивидуальные занятия для взрослых и детей. <strong>Уже на первом уроке сыграешь свою первую мелодию.</strong></p>
+            <div class="hero-urgency">
+                <span class="urgency-dot"></span>
+                Осталось <strong>3 места</strong> на апрель &mdash; индивидуальный формат ограничен
+            </div>
+            <div class="hero-buttons">
+                <a href="#signup" class="btn-primary">Записаться на бесплатный урок</a>
+            </div>
+            <div class="hero-micro-fast">Перезвоним в течение 10 минут &nbsp;·&nbsp; Без спама</div>
+            <div class="hero-micro-proof">★ 100+ учеников уже выступили на сцене</div>
+        </div>
+    </section>
+
+    <!-- TRIAL LESSON — что будет на пробном уроке -->
+    <section class="trial-lesson">
+        <div class="trial-content">
+            <h2>Что будет на <span>пробном уроке</span></h2>
+            <p>Бесплатно. 30 минут. Без обязательств.</p>
+            <div class="trial-list">
+                <div class="trial-item"><span class="trial-num">01</span><span class="trial-text">Подберём инструмент под тебя</span></div>
+                <div class="trial-item"><span class="trial-num">02</span><span class="trial-text">Покажем, как правильно держать и играть</span></div>
+                <div class="trial-item"><span class="trial-num">03</span><span class="trial-text">Сыграешь свою первую мелодию</span></div>
+                <div class="trial-item"><span class="trial-num">04</span><span class="trial-text">Дадим персональный план развития</span></div>
+            </div>
+            <a href="#signup" class="btn-primary">Записаться бесплатно</a>
+        </div>
+    </section>
+
+    <!-- DIRECTIONS — упрощённые карточки с конкретикой -->
+    <section class="directions" id="directions">
+        <div class="section-title">
+            <h2>Выбери свой <span>инструмент</span></h2>
+            <p>Шесть направлений. Преподаватели-практики. Конкретный результат с первых занятий.</p>
+        </div>
+        <div class="directions-grid">
+
+            <div class="direction-card simple">
+                <span class="direction-icon">🎸</span>
+                <h3>Гитара</h3>
+                <p>От 0 до первых песен <strong>за 3&ndash;4 недели</strong>. Акустика, электро, классика.</p>
+            </div>
+
+            <div class="direction-card simple">
+                <span class="direction-icon">🎤</span>
+                <h3>Вокал</h3>
+                <p>Поставим голос и уверенность. <strong>Запоёшь на первом уроке</strong> &mdash; даже если думаешь, что нет слуха.</p>
+            </div>
+
+            <div class="direction-card simple">
+                <span class="direction-icon">🥁</span>
+                <h3>Барабаны</h3>
+                <p>Простой бит за <strong>1 урок</strong>. Лучший антистресс &mdash; и драйв живого звука.</p>
+            </div>
+
+            <div class="direction-card simple">
+                <span class="direction-icon">🎹</span>
+                <h3>Фортепиано</h3>
+                <p>Первая мелодия <strong>уже на пробном уроке</strong>. Классика, современность, любой уровень.</p>
+            </div>
+
+            <div class="direction-card simple">
+                <span class="direction-icon">🎸</span>
+                <h3>Бас-гитара</h3>
+                <p>Грув и фундамент группы. <strong>Первый рифф за 2 урока</strong>. Фанк, рок, джаз.</p>
+            </div>
+
+            <div class="direction-card simple">
+                <span class="direction-icon">🎵</span>
+                <h3>Укулеле</h3>
+                <p>Самый быстрый старт. <strong>Первая песня за 2 недели</strong>. Для детей с 5 лет и взрослых.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INLINE CTA REPEAT 1 -->
+    <section class="cta-repeat">
+        <a href="#signup" class="btn-primary">Записаться на бесплатный урок</a>
+        <div class="cta-repeat-note">Перезвоним за 10 минут · Без спама</div>
+    </section>
+
+    <!-- PAIN SECTION — Loss Aversion -->
+    <section class="pain-section">
+        <div class="pain-content">
+            <h2>Через год ты скажешь: <span>&laquo;жаль, что не начал сегодня&raquo;</span></h2>
+            <p>Каждый месяц без музыки &mdash; месяц, который не вернуть. Твои ровесники уже на сцене. А ты?</p>
+            <a href="#signup" class="btn-primary">Записаться на бесплатный урок</a>
+            <div class="cta-repeat-note" style="margin-top: 16px;">Перезвоним за 10 минут · Без спама</div>
+        </div>
+    </section>
+
+    <!-- ADVANTAGES -->
+    <section class="advantages" id="advantages">
+        <div class="section-title">
+            <h2>Почему <span>мы</span></h2>
+            <p>Не массовая школа. Мы строим музыкантов, а не собираем группы.</p>
+        </div>
+        <div class="advantages-grid">
+            <div class="advantage-item">
+                <div class="advantage-number">01</div>
+                <div>
+                    <h3>Только индивидуально</h3>
+                    <p>0 групповых уроков. Каждое занятие — один на один. Программа подстраивается под тебя, а не наоборот.</p>
+                </div>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">02</div>
+                <div>
+                    <h3>Концерты на настоящей сцене</h3>
+                    <p>100+ учеников уже выступили. Не отчётный показ в классе — живое выступление со светом, звуком и зрителями.</p>
+                </div>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">03</div>
+                <div>
+                    <h3>От 5 лет до 65+</h3>
+                    <p>Самому младшему — 5, старшему — 62. Оба играют на концертах. Возраст — не препятствие.</p>
+                </div>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">04</div>
+                <div>
+                    <h3>Первая мелодия — за 1 урок</h3>
+                    <p>Не теория и не «через полгода». Конкретный результат уже на пробном занятии.</p>
+                </div>
+            </div>
+            <div class="advantage-item advantage-killer">
+                <div class="advantage-number">05</div>
+                <div>
+                    <h3>Не франшиза. Не конвейер.</h3>
+                    <p>Сетевые школы штампуют &laquo;выпускников&raquo; по шаблону. У нас основатель знает каждого ученика по имени. Это не бизнес на потоке &mdash; это школа, где тебя слышат.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEO CAROUSEL — Выступления учеников -->
+    <section class="video-section" id="video">
+        <div class="section-title">
+            <h2>Смотри, как они <span>звучат</span></h2>
+            <p>Реальные выступления наших учеников. Без монтажа, без фильтров &mdash; только живой звук.</p>
+        </div>
+        <div class="video-carousel">
+            <div class="video-track" id="videoTrack">
+                <video class="active" src="videos/web/v1.mp4" controls preload="metadata" playsinline></video>
+                <video src="videos/web/v2.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v3.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v4.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v5.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v6.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v7.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v8.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v9.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v10.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v11.mp4" controls preload="none" playsinline></video>
+                <video src="videos/web/v12.mp4" controls preload="none" playsinline></video>
+            </div>
+            <div class="video-nav">
+                <button class="video-arrow" id="videoPrev">&larr;</button>
+                <span class="video-counter"><span id="videoCurrent">1</span> / <span id="videoTotal">12</span></span>
+                <button class="video-arrow" id="videoNext">&rarr;</button>
+            </div>
+            <div class="video-label" id="videoLabel">Выступление учеников Your Scene</div>
+        </div>
+    </section>
+
+    <!-- INLINE CTA REPEAT 2 -->
+    <section class="cta-repeat">
+        <a href="#signup" class="btn-primary">Записаться на бесплатный урок</a>
+        <div class="cta-repeat-note">Перезвоним за 10 минут · Без спама</div>
+    </section>
+
+    <!-- CONCERTS -->
+    <section class="concerts" id="concerts">
+        <div class="concerts-content">
+            <div class="concerts-text">
+                <h2>Концерты <span>учеников</span> &mdash; наша гордость</h2>
+                <p>Большинство школ обещают &laquo;вы научитесь играть&raquo;. Мы идём дальше.</p>
+                <p><span class="highlight">Наши ученики выходят на сцену.</span> Полноценные концерты с живым звуком, светом и зрителями. Это не зачёт в классе &mdash; это настоящее выступление.</p>
+                <p>Потому что музыка &mdash; это не только про ноты. Это про эмоции, которые ты даришь залу.</p>
+            </div>
+            <div class="concerts-visual">
+                <div class="stage-graphic">
+                    <div class="stage-emoji">🎶</div>
+                    <div class="stage-text">Live on stage</div>
+                    <div class="live-badge">
+                        <span class="urgency-dot"></span>
+                        Стрим концертов &mdash; скоро
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item"><span class="stat-number">100%</span><div class="stat-label">Индивидуально</div></div>
+            <div class="stat-item"><span class="stat-number">6</span><div class="stat-label">Направлений</div></div>
+            <div class="stat-item"><span class="stat-number">100+</span><div class="stat-label">Учеников на сцене</div></div>
+            <div class="stat-item"><span class="stat-number">0</span><div class="stat-label">Групповых уроков</div></div>
+        </div>
+    </section>
+
+    <!-- HEALTH BENEFITS -->
+    <section class="health" id="health">
+        <div class="section-title">
+            <h2>Музыка &mdash; это <span>здоровье</span></h2>
+            <p>Научно доказано. Не маркетинг &mdash; медицина.</p>
+        </div>
+        <div class="health-grid">
+            <div class="health-card">
+                <span class="card-icon">🧠</span>
+                <h3>Для <span>взрослых</span></h3>
+                <ul class="health-list">
+                    <li><strong>−64% к риску деменции</strong> и болезни Альцгеймера</li>
+                    <li>Снижение тревожности и кортизола, улучшение памяти</li>
+                    <li>Социализация и новый круг общения в любом возрасте</li>
+                </ul>
+                <div class="health-source">Journal of Neuroscience, 2023</div>
+            </div>
+            <div class="health-card">
+                <span class="card-icon">🌱</span>
+                <h3>Для <span>детей</span></h3>
+                <ul class="health-list">
+                    <li><strong>Лучшая успеваемость</strong> по математике и языкам</li>
+                    <li>Развитие дисциплины, концентрации, эмоционального интеллекта</li>
+                    <li>Уверенность в себе через выступления на сцене</li>
+                </ul>
+                <div class="health-source">Harvard Medical School</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOR WHO -->
+    <section class="for-who">
+        <div class="section-title">
+            <h2>Для <span>кого</span></h2>
+            <p>Музыка не знает ограничений по возрасту и профессии</p>
+        </div>
+        <div class="for-who-grid">
+            <div class="for-who-card"><span class="emoji">👦</span><h3>Дети от 5 лет</h3><p>Развитие через музыку: слух, координация, дисциплина и уверенность на сцене.</p></div>
+            <div class="for-who-card"><span class="emoji">👩‍💻</span><h3>Взрослые</h3><p>Давно хотели, но &laquo;некогда&raquo; и &laquo;поздно&raquo;? Неправда. Начните сейчас &mdash; результат будет.</p></div>
+            <div class="for-who-card"><span class="emoji">🎯</span><h3>С нуля</h3><p>Никакой подготовки не нужно. Всему научим &mdash; от первой ноты до сцены.</p></div>
+            <div class="for-who-card"><span class="emoji">🔥</span><h3>Продвинутые</h3><p>Есть база, но хотите больше? Углубим технику и доведём до выступления.</p></div>
+        </div>
+    </section>
+
+    <!-- QUOTE — Identity Play -->
+    <section class="quote-section">
+        <blockquote>Ты уже <span>музыкант</span>. Осталось <span>начать</span>.</blockquote>
+    </section>
+
+    <!-- OBJECTION CRUSHER -->
+    <section class="objections">
+        <div class="section-title"><h2>Да, мы <span>слышали</span></h2></div>
+        <div class="objections-grid">
+            <div class="objection-card"><div class="objection-q">&laquo;Мне уже поздно начинать&raquo;</div><div class="objection-a">Нашему старшему ученику 62. Он играет на концертах. Тебе не поздно.</div></div>
+            <div class="objection-card"><div class="objection-q">&laquo;У меня нет слуха&raquo;</div><div class="objection-a">Слух &mdash; это навык, а не дар. Он тренируется. Мы это делаем каждый день.</div></div>
+            <div class="objection-card"><div class="objection-q">&laquo;Это дорого&raquo;</div><div class="objection-a">Чашка кофе в день = месяц занятий. Кофе забудется к вечеру. Музыка останется навсегда.</div></div>
+            <div class="objection-card"><div class="objection-q">&laquo;У меня нет времени&raquo;</div><div class="objection-a">1 час в неделю. Меньше, чем серия сериала. Только через месяц ты уже играешь, а не смотришь.</div></div>
+        </div>
+    </section>
+
+    <!-- CTA / SIGNUP -->
+    <section class="cta-section" id="signup">
+        <h2>Запишись на <span>пробный урок</span></h2>
+        <p>Бесплатно. 30 минут. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
+        <form class="cta-form" id="signupForm">
+            <input type="text" name="name" placeholder="Ваше имя" required>
+            <input type="tel" name="phone" placeholder="Телефон" required>
+            <select name="direction" required>
+                <option value="" disabled selected>Выберите направление</option>
+                <option value="guitar">Гитара</option>
+                <option value="vocal">Вокал</option>
+                <option value="drums">Барабаны</option>
+                <option value="piano">Фортепиано</option>
+                <option value="bass">Бас-гитара</option>
+                <option value="ukulele">Укулеле</option>
+            </select>
+            <select name="age" required>
+                <option value="" disabled selected>Возраст ученика</option>
+                <option value="child">Ребёнок (5-12 лет)</option>
+                <option value="teen">Подросток (13-17 лет)</option>
+                <option value="adult">Взрослый (18+)</option>
+            </select>
+            <button type="submit" class="btn-primary">Записаться на бесплатный урок</button>
+            <div class="cta-spots"><span class="urgency-dot"></span> Перезвоним за 10 минут · Без спама</div>
+            <div class="privacy">Нажимая кнопку, вы соглашаетесь с <a href="#">обработкой персональных данных</a></div>
+        </form>
+    </section>
+
+    <!-- STICKY MOBILE CTA -->
+    <a href="#signup" class="sticky-cta">Записаться на бесплатный урок</a>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="nav-logo">YOUR <span>SCENE</span></div>
+                <p>Школа музыки в Сыктывкаре</p>
+                <p>ул. Карла Маркса, 192</p>
+                <p><a href="tel:+79121910650" style="color: var(--yellow); text-decoration: none; font-weight: 700;">+7 (912) 191-06-50</a></p>
+                <div class="footer-social">
+                    <a href="https://vk.com/your_scene_sykt" target="_blank" aria-label="VK">VK</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Направления</h4>
+                <a href="#directions">Гитара</a>
+                <a href="#directions">Вокал</a>
+                <a href="#directions">Барабаны</a>
+                <a href="#directions">Фортепиано</a>
+                <a href="#directions">Бас-гитара</a>
+                <a href="#directions">Укулеле</a>
+            </div>
+            <div class="footer-links">
+                <h4>Контакты</h4>
+                <a href="tel:+79121910650">+7 (912) 191-06-50</a>
+                <a href="https://vk.com/your_scene_sykt" target="_blank">VK сообщество</a>
+                <a href="#">г. Сыктывкар, ул. Карла Маркса, 192</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Your Scene. Школа музыки в Сыктывкаре.
+        </div>
+    </footer>
+
+    <script>
+        // ===== BURGER MENU =====
+        document.getElementById('burger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('active'));
+        });
+
+        // ===== FORM =====
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = new FormData(e.target).get('name');
+            alert(`${name}, спасибо за заявку! Мы свяжемся с вами в ближайшее время.`);
+            e.target.reset();
+        });
+
+        // ===== SCROLL REVEAL =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.direction-card, .advantage-item, .for-who-card, .stat-item, .objection-card, .health-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // ===== VIDEO CAROUSEL =====
+        const videos = document.querySelectorAll('#videoTrack video');
+        const totalEl = document.getElementById('videoTotal');
+        const currentEl = document.getElementById('videoCurrent');
+        const labelEl = document.getElementById('videoLabel');
+        let currentVideo = 0;
+
+        totalEl.textContent = videos.length;
+
+        function showVideo(index) {
+            videos.forEach(v => {
+                v.classList.remove('active');
+                try { v.pause(); } catch(e) {}
+            });
+            videos[index].classList.add('active');
+            videos[index].preload = 'metadata';
+            currentEl.textContent = index + 1;
+            labelEl.textContent = `Выступление #${index + 1} — ученик Your Scene`;
+        }
+
+        document.getElementById('videoNext').addEventListener('click', () => {
+            currentVideo = (currentVideo + 1) % videos.length;
+            showVideo(currentVideo);
+        });
+        document.getElementById('videoPrev').addEventListener('click', () => {
+            currentVideo = (currentVideo - 1 + videos.length) % videos.length;
+            showVideo(currentVideo);
+        });
+
+        // ===== FLOATING MUSICAL NOTES (Canvas) =====
+        const canvas = document.getElementById('notesCanvas');
+        if (canvas && window.innerWidth > 768) {
+            const ctx = canvas.getContext('2d');
+            let W, H;
+            const notes = [];
+            const noteSymbols = ['\u266A', '\u266B', '\u2669', '\u266C'];
+            const maxNotes = 20;
+
+            function resize() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            class Note {
+                constructor() { this.reset(); this.y = Math.random() * H; }
+                reset() {
+                    this.x = Math.random() * W;
+                    this.y = H + 20;
+                    this.size = 14 + Math.random() * 14;
+                    this.speed = 0.2 + Math.random() * 0.5;
+                    this.drift = (Math.random() - 0.5) * 0.4;
+                    this.opacity = 0.08 + Math.random() * 0.2;
+                    this.symbol = noteSymbols[Math.floor(Math.random() * noteSymbols.length)];
+                    this.phase = Math.random() * Math.PI * 2;
+                }
+                update() {
+                    this.y -= this.speed;
+                    this.x += Math.sin(this.phase) * this.drift;
+                    this.phase += 0.008;
+                    if (this.y < -30) this.reset();
+                }
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.opacity;
+                    ctx.fillStyle = '#FFD600';
+                    ctx.font = `${this.size}px serif`;
+                    ctx.fillText(this.symbol, this.x, this.y);
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < maxNotes; i++) notes.push(new Note());
+
+            function animate() {
+                ctx.clearRect(0, 0, W, H);
+                notes.forEach(n => { n.update(); n.draw(); });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+
+</body>
+</html>

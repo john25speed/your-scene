@@ -1,0 +1,8 @@
+# Original heavy MOV source files (keep only web-optimized MP4 in videos/web/)
+videos/*.mov
+videos/*.MOV
+
+# Local files
+send_tg.py
+.DS_Store
+Thumbs.db
