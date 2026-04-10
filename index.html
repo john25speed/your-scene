@@ -1007,9 +1007,11 @@
                     // Лёгкий буст для верхних частот — у них амплитуда обычно меньше
                     const hiBoost = 1 + 0.55 * (freqIdx / (BARS - 1));
                     const v = smoothed[freqIdx] * hiBoost;
-                    // Огибающая «лепестка»: длиннее ближе к плееру
+                    // Огибающая «лепестка»: длиннее ближе к плееру.
+                    // Минимум 0.32 — чтобы крайние полоски не вырождались
+                    // в неподвижную штриху-полосу.
                     const distFromPlayer = isLeft ? (BARS - 1 - i) : i; // 0 у плеера
-                    const envelope = Math.cos((distFromPlayer / BARS) * (Math.PI / 2));
+                    const envelope = 0.32 + 0.68 * Math.cos((distFromPlayer / BARS) * (Math.PI / 2));
                     // Базовый минимум полоски — еле заметная штриховка, чтобы силуэт был виден всегда
                     const baseLen = h * 0.04 * envelope;
                     const dynLen = v * h * 0.85 * envelope;
