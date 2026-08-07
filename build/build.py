@@ -130,8 +130,14 @@ EXTRA_CSS = """
 
         /* ===== ГДЕ МЫ ЗАНИМАЕМСЯ ===== */
         .place { padding: 100px 40px; background: var(--dark); position: relative; z-index: 2; }
-        .place-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-        .place-grid img { width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block; border: 1px solid rgba(255,255,255,0.07); }
+        /* кладка: каждое фото сохраняет свои пропорции, класс видно целиком */
+        .place-grid { max-width: 1180px; margin: 0 auto; column-count: 3; column-gap: 16px; }
+        .place-grid img { width: 100%; height: auto; display: block; margin-bottom: 16px;
+            break-inside: avoid; -webkit-column-break-inside: avoid; border: 1px solid rgba(255,255,255,0.07);
+            transition: border-color 0.3s; }
+        .place-grid img:hover { border-color: rgba(255,214,0,0.35); }
+        @media (max-width: 900px) { .place-grid { column-count: 2; } }
+        @media (max-width: 560px) { .place-grid { column-count: 1; } }
         .place-cta { text-align: center; margin-top: 40px; display: flex; gap: 26px; justify-content: center; align-items: center; flex-wrap: wrap; }
         .place-map { color: var(--yellow); font-weight: 700; text-decoration: none; font-size: 0.9rem; }
 
