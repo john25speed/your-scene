@@ -544,6 +544,54 @@
         .other-dir:hover { border-color: rgba(255,214,0,0.4); transform: translateY(-2px); }
         .other-dir .od-icon { font-size: 1.5rem; }
 
+
+        /* ===== ПЕРВЫЙ ЭКРАН С ФОРМОЙ ===== */
+        .hero-split { min-height: auto; padding: 130px 40px 80px; display: block; position: relative; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center 35%; opacity: 0.30; z-index: 0; }
+        .hero-split::after { content: ''; position: absolute; inset: 0; z-index: 1;
+            background: linear-gradient(90deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.80) 45%, rgba(10,10,10,0.92) 100%); }
+        .hero-grid { position: relative; z-index: 3; max-width: 1240px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; text-align: left; }
+        .hero-left { max-width: none; }
+        .hero-split h1 { font-size: clamp(2rem, 3.6vw, 3.4rem); text-align: left; margin-bottom: 20px; }
+        .hero-split .hero-content, .hero-split p { text-align: left; margin-left: 0; }
+        .hero-split .hero-badge { margin-bottom: 22px; }
+        .hero-split .facts-bar { margin: 26px 0 18px; max-width: none; }
+        .hero-split .hero-micro-proof { margin-top: 4px; }
+
+        .hero-form { background: rgba(20,20,20,0.94); border: 1px solid rgba(255,214,0,0.28); padding: 34px 30px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
+        .hero-form h2 { font-size: 1.35rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; line-height: 1.25; }
+        .hero-form h2 span { color: var(--yellow); }
+        .hf-sub { color: var(--gray); font-size: 0.85rem; line-height: 1.55; margin-bottom: 20px; }
+        .hero-form .cta-form { max-width: none; gap: 12px; }
+        .hero-form .cta-form input, .hero-form .cta-form select { padding: 15px 18px; font-size: 0.9rem; }
+        .hero-form .btn-primary { padding: 17px; font-size: 0.95rem; }
+        .hero-form .cta-spots { font-size: 0.78rem; }
+        .hf-alt { margin-top: 16px; font-size: 0.82rem; color: var(--gray); text-align: center; }
+        .hf-alt a { color: var(--yellow); font-weight: 700; text-decoration: none; }
+
+        /* ===== ГАЛЕРЕЯ ===== */
+        .gallery { padding: 100px 40px; position: relative; z-index: 2; }
+        .gallery-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+        .gallery-grid img { width: 100%; height: 100%; aspect-ratio: 4/5; object-fit: cover; display: block;
+            border: 1px solid rgba(255,255,255,0.07); transition: transform 0.4s, border-color 0.3s; }
+        .gallery-grid img:hover { transform: translateY(-4px); border-color: rgba(255,214,0,0.4); }
+
+        /* ===== ГДЕ МЫ ЗАНИМАЕМСЯ ===== */
+        .place { padding: 100px 40px; background: var(--dark); position: relative; z-index: 2; }
+        .place-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .place-grid img { width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block; border: 1px solid rgba(255,255,255,0.07); }
+        .place-cta { text-align: center; margin-top: 40px; display: flex; gap: 26px; justify-content: center; align-items: center; flex-wrap: wrap; }
+        .place-map { color: var(--yellow); font-weight: 700; text-decoration: none; font-size: 0.9rem; }
+
+        @media (max-width: 980px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 34px; }
+            .hero-split { padding: 105px 20px 60px; }
+            .hero-split h1 { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+            .hero-form { padding: 26px 20px; }
+            .gallery, .place { padding: 70px 20px; }
+        }
         @media (max-width: 900px) {
             .timeline { grid-template-columns: 1fr; }
         }
@@ -574,29 +622,46 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-    <div class="hero-content">
-        <div class="hero-badge">🎸 Бас-гитара · Сыктывкар</div>
-        <h1>Первый рифф <span>за два урока</span> — и ты держишь всю группу</h1>
-        <p>Индивидуальные занятия в Сыктывкаре. Рок, фанк, джаз. <strong>Бас — самый быстрый вход в игру с живым составом.</strong></p>
-
-        <div class="facts-bar">
-            <div class="fact"><span class="fact-k">Пробный урок</span><span class="fact-v">Бесплатно, 30 минут</span></div>
-            <div class="fact"><span class="fact-k">Формат</span><span class="fact-v">Только индивидуально</span></div>
-            <div class="fact"><span class="fact-k">Адрес</span><a class="fact-v" href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">ул. Карла Маркса, 192</a></div>
-            <div class="fact"><span class="fact-k">Телефон</span><a class="fact-v" href="tel:+79121910650" data-goal="phone_click">+7 (912) 191-06-50</a></div>
+<section class="hero hero-split">
+    <div class="hero-bg" style="background-image:url('/assets/photos/hero-bass.webp')"></div>
+    <div class="hero-grid">
+        <div class="hero-left">
+            <div class="hero-badge">🎸 Бас-гитара · Сыктывкар</div>
+            <h1>Первый рифф <span>за два урока</span> — и ты держишь всю группу</h1>
+            <p>Индивидуальные занятия в Сыктывкаре. Рок, фанк, джаз. <strong>Бас — самый быстрый вход в игру с живым составом.</strong></p>
+            <div class="facts-bar">
+                <div class="fact"><span class="fact-k">Пробный урок</span><span class="fact-v">Бесплатно, 30 минут</span></div>
+                <div class="fact"><span class="fact-k">Формат</span><span class="fact-v">Только индивидуально</span></div>
+                <div class="fact"><span class="fact-k">Адрес</span><a class="fact-v" href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">ул. Карла Маркса, 192</a></div>
+                <div class="fact"><span class="fact-k">Телефон</span><a class="fact-v" href="tel:+79121910650" data-goal="phone_click">+7 (912) 191-06-50</a></div>
+            </div>
+            <div class="hero-micro-proof">★ 100+ учеников уже выступили на сцене</div>
         </div>
 
-        <div class="hero-urgency">
-            <span class="urgency-dot"></span>
-            Осталось <strong>3 места</strong> на <span id="heroMonth">этот месяц</span> — индивидуальный формат ограничен
-        </div>
-
-        <div class="hero-buttons">
-            <a href="#signup" class="btn-primary">Записаться на бесплатный урок</a>
-        </div>
-        <div class="hero-micro-fast">Перезвоним в течение 10 минут &nbsp;·&nbsp; Без спама</div>
-        <div class="hero-micro-proof">★ 100+ учеников уже выступили на сцене</div>
+        <aside class="hero-form" id="signup-top">
+            <h2>Пробный урок — <span>бесплатно</span></h2>
+            <p class="hf-sub">30 минут. Без обязательств. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
+            <form class="cta-form js-lead-form" data-place="hero">
+                <input type="text" name="name" placeholder="Ваше имя" required minlength="2" maxlength="60">
+                <input type="tel" name="phone" placeholder="Телефон" required>
+                <input type="hidden" name="direction" value="bass">
+                <select name="age" required>
+                    <option value="" disabled selected>Возраст ученика</option>
+                    <option value="child">Ребёнок (5-12 лет)</option>
+                    <option value="teen">Подросток (13-17 лет)</option>
+                    <option value="adult">Взрослый (18+)</option>
+                </select>
+                <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
+                <button type="submit" class="btn-primary js-submit">Записаться бесплатно</button>
+                <div class="cta-spots"><span class="urgency-dot"></span> Перезвоним за 10 минут · Без спама</div>
+                <label class="consent">
+                    <input type="checkbox" name="consent" required>
+                    <span>Согласен на <a href="/privacy.html" target="_blank" rel="noopener">обработку персональных данных</a></span>
+                </label>
+                <div class="form-status js-status" hidden></div>
+            </form>
+            <div class="hf-alt">Или позвоните: <a href="tel:+79121910650" data-goal="phone_click">+7 (912) 191-06-50</a></div>
+        </aside>
     </div>
 </section>
 
@@ -606,7 +671,7 @@
         <h2>Что будет на <span>пробном уроке</span></h2>
         <p>Бесплатно. 30 минут. Без обязательств и без «купите абонемент прямо сейчас».</p>
         <div class="trial-list"><div class="trial-item"><span class="trial-num">01</span><span class="trial-text">Подберём бас под твою руку — инструмент в классе есть</span></div><div class="trial-item"><span class="trial-num">02</span><span class="trial-text">Поставим правую руку: пальцами или медиатором</span></div><div class="trial-item"><span class="trial-num">03</span><span class="trial-text">Сыграешь первую басовую линию под барабаны</span></div><div class="trial-item"><span class="trial-num">04</span><span class="trial-text">Разберём стиль: рок, фанк или джаз</span></div></div>
-        <a href="#signup" class="btn-primary">Записаться бесплатно</a>
+        <a href="#signup-top" class="btn-primary">Записаться бесплатно</a>
     </div>
 </section>
 
@@ -617,7 +682,7 @@
         <p>Без «через год начнёте что-то понимать». Конкретные сроки по бас-гитаре.</p>
     </div>
     <div class="timeline"><div class="tl-item"><div class="tl-when">2 урока</div><div class="tl-what">Первый узнаваемый рифф. Из тех, что играют на каждом джеме.</div></div><div class="tl-item"><div class="tl-when">1 месяц</div><div class="tl-what">Снимаешь и играешь басовые линии любимых треков целиком.</div></div><div class="tl-item"><div class="tl-when">3 месяца</div><div class="tl-what">Репетиции с составом. Басиста в Сыктывкаре ищут постоянно — это не преувеличение.</div></div></div>
-    <div class="timeline-cta"><a href="#signup" class="btn-primary">Начать с бесплатного урока</a></div>
+    <div class="timeline-cta"><a href="#signup-top" class="btn-primary">Начать с бесплатного урока</a></div>
 </section>
 
 <!-- ПОЧЕМУ МЫ -->
@@ -641,7 +706,7 @@
         <p>Реальные выступления наших учеников. Без монтажа, без фильтров — только живой звук.</p>
     </div>
     <div class="video-carousel">
-        <div class="video-track" id="videoTrack"><video class="active" src="/videos/web/v1.mp4" controls preload="metadata" playsinline></video><video src="/videos/web/v2.mp4" controls preload="none" playsinline></video><video src="/videos/web/v3.mp4" controls preload="none" playsinline></video><video src="/videos/web/v4.mp4" controls preload="none" playsinline></video><video src="/videos/web/v5.mp4" controls preload="none" playsinline></video><video src="/videos/web/v6.mp4" controls preload="none" playsinline></video><video src="/videos/web/v7.mp4" controls preload="none" playsinline></video><video src="/videos/web/v8.mp4" controls preload="none" playsinline></video><video src="/videos/web/v9.mp4" controls preload="none" playsinline></video><video src="/videos/web/v10.mp4" controls preload="none" playsinline></video><video src="/videos/web/v11.mp4" controls preload="none" playsinline></video><video src="/videos/web/v12.mp4" controls preload="none" playsinline></video></div>
+        <div class="video-track" id="videoTrack"><video class="active" src="/videos/web/v1.mp4" poster="/assets/posters/v1.webp" controls preload="metadata" playsinline></video><video src="/videos/web/v2.mp4" poster="/assets/posters/v2.webp" controls preload="none" playsinline></video><video src="/videos/web/v3.mp4" poster="/assets/posters/v3.webp" controls preload="none" playsinline></video><video src="/videos/web/v4.mp4" poster="/assets/posters/v4.webp" controls preload="none" playsinline></video><video src="/videos/web/v5.mp4" poster="/assets/posters/v5.webp" controls preload="none" playsinline></video><video src="/videos/web/v6.mp4" poster="/assets/posters/v6.webp" controls preload="none" playsinline></video><video src="/videos/web/v7.mp4" poster="/assets/posters/v7.webp" controls preload="none" playsinline></video><video src="/videos/web/v8.mp4" poster="/assets/posters/v8.webp" controls preload="none" playsinline></video><video src="/videos/web/v9.mp4" poster="/assets/posters/v9.webp" controls preload="none" playsinline></video><video src="/videos/web/v10.mp4" poster="/assets/posters/v10.webp" controls preload="none" playsinline></video><video src="/videos/web/v11.mp4" poster="/assets/posters/v11.webp" controls preload="none" playsinline></video><video src="/videos/web/v12.mp4" poster="/assets/posters/v12.webp" controls preload="none" playsinline></video></div>
         <div class="video-nav">
             <button class="video-arrow" id="videoPrev" aria-label="Предыдущее">←</button>
             <span class="video-counter"><span id="videoCurrent">1</span> / <span id="videoTotal">1</span></span>
@@ -658,6 +723,26 @@
         <p>Бас-гитара — не про талант. Про регулярность и нормального преподавателя.</p>
     </div>
     <div class="for-who-grid"><div class="for-who-card"><h3>Хочу в группу</h3><p>Самый прямой путь на сцену. Басистов ищут всегда.</p></div><div class="for-who-card"><h3>С нуля</h3><p>Без гитарного прошлого. Это нормально и даже удобнее.</p></div><div class="for-who-card"><h3>Гитаристы</h3><p>Переход с гитары на бас: другая техника, другая роль, много работы.</p></div><div class="for-who-card"><h3>Подростки</h3><p>От 10 лет. Быстрый результат, а значит не бросают.</p></div></div>
+</section>
+
+<!-- ГАЛЕРЕЯ НАПРАВЛЕНИЯ -->
+<section class="gallery"><div class="section-title"><h2>Наши ученики <span>на сцене</span></h2><p>Реальные фотографии с занятий и отчётных концертов. Без стоков.</p></div><div class="gallery-grid"><img src="/assets/photos/bass-1.webp" width="760" height="950" loading="lazy" decoding="async" alt="Бас-гитара в классе школы «Твоя Сцена»"><img src="/assets/photos/bass-2.webp" width="760" height="950" loading="lazy" decoding="async" alt="Ученик на сцене отчётного концерта"></div></section>
+
+<!-- ГДЕ МЫ ЗАНИМАЕМСЯ -->
+<section class="place">
+    <div class="section-title">
+        <h2>Где мы <span>занимаемся</span></h2>
+        <p>Сыктывкар, ул. Карла Маркса, 192, 6 этаж. Свои инструменты приносить не нужно.</p>
+    </div>
+    <div class="place-grid">
+        <img src="/assets/photos/interior-1.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Класс школы музыки «Твоя Сцена» в Сыктывкаре — гитары на стене">
+        <img src="/assets/photos/interior-2.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Класс с барабанной установкой в школе «Твоя Сцена»">
+        <img src="/assets/photos/interior-3.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Школа музыки «Твоя Сцена», Карла Маркса 192">
+    </div>
+    <div class="place-cta">
+        <a class="btn-primary" href="#signup-top">Записаться на бесплатный урок</a>
+        <a class="place-map" href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">Посмотреть на карте →</a>
+    </div>
 </section>
 
 <!-- ВОЗРАЖЕНИЯ -->
@@ -681,7 +766,7 @@
 <section class="cta-section" id="signup">
     <h2>Запишись на <span>пробный урок</span></h2>
     <p>Бесплатно. 30 минут. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
-    <form class="cta-form" id="signupForm">
+    <form class="cta-form js-lead-form" data-place="bottom">
         <input type="text" name="name" placeholder="Ваше имя" required minlength="2" maxlength="60">
         <input type="tel" name="phone" placeholder="Телефон" required>
         <input type="hidden" name="direction" value="bass">
@@ -691,23 +776,14 @@
             <option value="teen">Подросток (13-17 лет)</option>
             <option value="adult">Взрослый (18+)</option>
         </select>
-        <input type="hidden" name="utm_source" id="f_utm_source">
-        <input type="hidden" name="utm_medium" id="f_utm_medium">
-        <input type="hidden" name="utm_campaign" id="f_utm_campaign">
-        <input type="hidden" name="utm_content" id="f_utm_content">
-        <input type="hidden" name="utm_term" id="f_utm_term">
-        <input type="hidden" name="yclid" id="f_yclid">
-        <input type="hidden" name="ym_client_id" id="f_ym_client_id">
-        <input type="hidden" name="page_referrer" id="f_referrer">
-        <input type="hidden" name="landing_page" id="f_landing">
         <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
-        <button type="submit" class="btn-primary" id="signupBtn">Записаться на бесплатный урок</button>
+        <button type="submit" class="btn-primary js-submit">Записаться на бесплатный урок</button>
         <div class="cta-spots"><span class="urgency-dot"></span> Перезвоним за 10 минут · Без спама</div>
         <label class="consent">
-            <input type="checkbox" name="consent" id="consentBox" required>
+            <input type="checkbox" name="consent" required>
             <span>Я согласен(на) на <a href="/privacy.html" target="_blank" rel="noopener">обработку персональных данных</a> и ознакомлен(а) с политикой конфиденциальности</span>
         </label>
-        <div class="form-status" id="formStatus" hidden></div>
+        <div class="form-status js-status" hidden></div>
     </form>
     <div class="cta-alt">
         Неудобно заполнять? <a href="tel:+79121910650" data-goal="phone_click">Позвоните: +7 (912) 191-06-50</a>
@@ -773,12 +849,6 @@
             }
             return saved;
         })();
-        TRAFFIC_KEYS.forEach(k => { const el = document.getElementById('f_' + k); if (el) el.value = traffic[k] || ''; });
-        document.getElementById('f_referrer').value = traffic.referrer || document.referrer || '';
-        document.getElementById('f_landing').value = traffic.first_landing || location.href;
-        if (window.ym && window.YM_ID) {
-            try { ym(window.YM_ID, 'getClientID', id => { document.getElementById('f_ym_client_id').value = id || ''; }); } catch (e) {}
-        }
 
         // ===== ЖИВОЙ ДЕДЛАЙН =====
         (function () {
@@ -789,9 +859,10 @@
             el.textContent = M[now.getDate() > 25 ? (now.getMonth() + 1) % 12 : now.getMonth()];
         })();
 
-        // ===== МАСКА ТЕЛЕФОНА =====
+        // ===== (маска телефона перенесена в обработчик форм) =====
         (function () {
-            const input = document.querySelector('.cta-form input[name="phone"]');
+            const input = null; if (!input) return;
+            const _unused = document.querySelector('.cta-form input[name="phone"]');
             if (!input) return;
             input.setAttribute('inputmode','tel');
             input.placeholder = '+7 (___) ___-__-__';
@@ -823,65 +894,121 @@
             else if (h === '#signup') goal('cta_click');
         });
 
-        // ===== ЦЕЛЬ: НАЧАЛО ЗАПОЛНЕНИЯ =====
-        (function () {
-            const f = document.getElementById('signupForm');
-            let fired = false;
-            const fire = () => { if (!fired) { fired = true; goal('form_start'); } };
-            f.addEventListener('input', fire, true);
-            f.addEventListener('change', fire, true);
-        })();
-
-        // ===== ФОРМА =====
+        // ===== ФОРМЫ (их две: на первом экране и внизу) =====
         const FORM_ENDPOINT = 'https://193-29-225-72.sslip.io:8788';
-        document.getElementById('signupForm').addEventListener('submit', async e => {
-            e.preventDefault();
-            const form = e.target, btn = document.getElementById('signupBtn'), status = document.getElementById('formStatus');
-            const fd = new FormData(form);
-            const digits = (fd.get('phone') || '').replace(/\D/g,'');
-            status.hidden = true; status.className = 'form-status';
-            if (digits.length !== 11) {
-                status.className = 'form-status error';
-                status.textContent = 'Проверьте номер телефона — нужно 11 цифр.';
-                status.hidden = false; goal('form_error', { reason: 'phone' }); return;
-            }
-            const data = {
-                name: (fd.get('name') || '').trim(),
-                phone: '+' + digits,
-                direction: fd.get('direction') || '',
-                age: fd.get('age') || '',
-                website: fd.get('website') || '',
-                consent: fd.get('consent') ? 'yes' : 'no',
-                consent_at: new Date().toISOString(),
-                utm_source: fd.get('utm_source') || '', utm_medium: fd.get('utm_medium') || '',
-                utm_campaign: fd.get('utm_campaign') || '', utm_content: fd.get('utm_content') || '',
-                utm_term: fd.get('utm_term') || '', yclid: fd.get('yclid') || '',
-                ym_client_id: fd.get('ym_client_id') || '',
-                page_referrer: fd.get('page_referrer') || '', landing_page: fd.get('landing_page') || ''
+
+        document.querySelectorAll('.js-lead-form').forEach(form => {
+            const place = form.dataset.place || 'unknown';
+
+            // подставляем метки трафика скрытыми полями
+            const hidden = {
+                utm_source: traffic.utm_source, utm_medium: traffic.utm_medium,
+                utm_campaign: traffic.utm_campaign, utm_content: traffic.utm_content,
+                utm_term: traffic.utm_term, yclid: traffic.yclid,
+                page_referrer: traffic.referrer || document.referrer,
+                landing_page: traffic.first_landing || location.href,
+                ym_client_id: ''
             };
-            btn.disabled = true; const old = btn.textContent; btn.textContent = 'Отправляем...';
-            try {
-                const r = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                const j = await r.json().catch(() => ({}));
-                if (r.ok && j.ok) {
-                    status.className = 'form-status success';
-                    status.textContent = '\u2713 Заявка принята! Перезвоним в течение 10 минут.';
+            Object.entries(hidden).forEach(([k, v]) => {
+                const i = document.createElement('input');
+                i.type = 'hidden'; i.name = k; i.value = v || '';
+                form.appendChild(i);
+            });
+
+            // цель «начал заполнять»
+            let started = false;
+            const fire = () => { if (!started) { started = true; goal('form_start', { place: place }); } };
+            form.addEventListener('input', fire, true);
+            form.addEventListener('change', fire, true);
+
+            // маска телефона
+            const phone = form.querySelector('input[name="phone"]');
+            if (phone) {
+                phone.setAttribute('inputmode', 'tel');
+                phone.placeholder = '+7 (___) ___-__-__';
+                const fmt = v => {
+                    let d = v.replace(/\D/g, '');
+                    if (d.startsWith('8')) d = '7' + d.slice(1);
+                    if (!d.startsWith('7')) d = '7' + d;
+                    d = d.slice(0, 11);
+                    let o = '+7';
+                    if (d.length > 1) o += ' (' + d.slice(1, 4);
+                    if (d.length >= 4) o += ')';
+                    if (d.length > 4) o += ' ' + d.slice(4, 7);
+                    if (d.length > 7) o += '-' + d.slice(7, 9);
+                    if (d.length > 9) o += '-' + d.slice(9, 11);
+                    return o;
+                };
+                phone.addEventListener('input', () => { phone.value = fmt(phone.value); });
+                phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+7 ('; });
+            }
+
+            form.addEventListener('submit', async e => {
+                e.preventDefault();
+                const btn = form.querySelector('.js-submit');
+                const status = form.querySelector('.js-status');
+                const fd = new FormData(form);
+                const digits = (fd.get('phone') || '').replace(/\D/g, '');
+                status.hidden = true; status.className = 'form-status js-status';
+
+                if (digits.length !== 11) {
+                    status.className = 'form-status js-status error';
+                    status.textContent = 'Проверьте номер телефона — нужно 11 цифр.';
                     status.hidden = false;
-                    goal('lead', { age: data.age, source: data.utm_source || 'direct/organic' });
-                    form.reset();
-                } else {
-                    let msg = 'Что-то пошло не так. Позвоните нам: +7 (912) 191-06-50';
-                    if (j.error === 'too_fast') msg = 'Подождите 30 секунд перед повторной отправкой.';
-                    if (j.error === 'invalid_fields') msg = 'Проверьте имя и телефон — что-то введено некорректно.';
-                    status.className = 'form-status error';
-                    status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
-                    status.hidden = false; goal('form_error', { reason: j.error || 'server' });
+                    goal('form_error', { reason: 'phone', place: place });
+                    return;
                 }
-            } catch (err) {
-                status.className = 'form-status error';
-                status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a>.</div>';
-                status.hidden = false; goal('form_error', { reason: 'network' });
-            } finally { btn.disabled = false; btn.textContent = old; }
+
+                let cid = '';
+                try { cid = await new Promise(res => {
+                    if (!window.ym || !window.YM_ID) return res('');
+                    let done = false;
+                    ym(window.YM_ID, 'getClientID', id => { done = true; res(id || ''); });
+                    setTimeout(() => { if (!done) res(''); }, 600);
+                }); } catch (err) {}
+
+                const data = {
+                    name: (fd.get('name') || '').trim(),
+                    phone: '+' + digits,
+                    direction: fd.get('direction') || '',
+                    age: fd.get('age') || '',
+                    website: fd.get('website') || '',
+                    consent: fd.get('consent') ? 'yes' : 'no',
+                    consent_at: new Date().toISOString(),
+                    form_place: place,
+                    utm_source: fd.get('utm_source') || '', utm_medium: fd.get('utm_medium') || '',
+                    utm_campaign: fd.get('utm_campaign') || '', utm_content: fd.get('utm_content') || '',
+                    utm_term: fd.get('utm_term') || '', yclid: fd.get('yclid') || '',
+                    ym_client_id: cid,
+                    page_referrer: fd.get('page_referrer') || '', landing_page: fd.get('landing_page') || ''
+                };
+
+                btn.disabled = true; const old = btn.textContent; btn.textContent = 'Отправляем...';
+                try {
+                    const r = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                    const j = await r.json().catch(() => ({}));
+                    if (r.ok && j.ok) {
+                        status.className = 'form-status js-status success';
+                        status.textContent = '✓ Заявка принята! Перезвоним в течение 10 минут.';
+                        status.hidden = false;
+                        goal('lead', { age: data.age, place: place, source: data.utm_source || 'direct/organic' });
+                        form.reset();
+                    } else {
+                        let msg = 'Что-то пошло не так. Позвоните нам: +7 (912) 191-06-50';
+                        if (j.error === 'too_fast') msg = 'Подождите 30 секунд перед повторной отправкой.';
+                        if (j.error === 'invalid_fields') msg = 'Проверьте имя и телефон — что-то введено некорректно.';
+                        status.className = 'form-status js-status error';
+                        status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
+                        status.hidden = false;
+                        goal('form_error', { reason: j.error || 'server', place: place });
+                    }
+                } catch (err) {
+                    status.className = 'form-status js-status error';
+                    status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a>.</div>';
+                    status.hidden = false;
+                    goal('form_error', { reason: 'network', place: place });
+                } finally { btn.disabled = false; btn.textContent = old; }
+            });
         });
 
         // ===== FAQ-АККОРДЕОН =====
