@@ -43,8 +43,11 @@ BASE_CSS = m.group(1)
 
 EXTRA_CSS = """
         /* ===== ДОБАВЛЕНО ДЛЯ ПОСАДОЧНЫХ ПО НАПРАВЛЕНИЯМ ===== */
-        .nav-phone { color: var(--yellow); text-decoration: none; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.5px; white-space: nowrap; margin-left: auto; margin-right: 24px; }
+        nav { gap: 28px; }
+        .nav-links { gap: 22px; flex: 0 1 auto; }
+        .nav-phone { color: var(--yellow); text-decoration: none; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.5px; white-space: nowrap; }
         .nav-phone:hover { color: var(--yellow-hover); }
+        @media (max-width: 1200px) { .nav-links a { font-size: 0.78rem; } .nav-links { gap: 16px; } }
 
         /* Строка фактов на первом экране */
         .facts-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; max-width: 900px; margin: 0 auto 30px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); }
@@ -91,6 +94,54 @@ EXTRA_CSS = """
         .other-dir:hover { border-color: rgba(255,214,0,0.4); transform: translateY(-2px); }
         .other-dir .od-icon { font-size: 1.5rem; }
 
+
+        /* ===== ПЕРВЫЙ ЭКРАН С ФОРМОЙ ===== */
+        .hero-split { min-height: auto; padding: 130px 40px 80px; display: block; position: relative; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center 35%; opacity: 0.30; z-index: 0; }
+        .hero-split::after { content: ''; position: absolute; inset: 0; z-index: 1;
+            background: linear-gradient(90deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.80) 45%, rgba(10,10,10,0.92) 100%); }
+        .hero-grid { position: relative; z-index: 3; max-width: 1240px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; text-align: left; }
+        .hero-left { max-width: none; }
+        .hero-split h1 { font-size: clamp(2rem, 3.6vw, 3.4rem); text-align: left; margin-bottom: 20px; }
+        .hero-split .hero-content, .hero-split p { text-align: left; margin-left: 0; }
+        .hero-split .hero-badge { margin-bottom: 22px; }
+        .hero-split .facts-bar { margin: 26px 0 18px; max-width: none; }
+        .hero-split .hero-micro-proof { margin-top: 4px; }
+
+        .hero-form { background: rgba(20,20,20,0.94); border: 1px solid rgba(255,214,0,0.28); padding: 34px 30px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
+        .hero-form h2 { font-size: 1.35rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; line-height: 1.25; }
+        .hero-form h2 span { color: var(--yellow); }
+        .hf-sub { color: var(--gray); font-size: 0.85rem; line-height: 1.55; margin-bottom: 20px; }
+        .hero-form .cta-form { max-width: none; gap: 12px; }
+        .hero-form .cta-form input, .hero-form .cta-form select { padding: 15px 18px; font-size: 0.9rem; }
+        .hero-form .btn-primary { padding: 17px; font-size: 0.95rem; }
+        .hero-form .cta-spots { font-size: 0.78rem; }
+        .hf-alt { margin-top: 16px; font-size: 0.82rem; color: var(--gray); text-align: center; }
+        .hf-alt a { color: var(--yellow); font-weight: 700; text-decoration: none; }
+
+        /* ===== ГАЛЕРЕЯ ===== */
+        .gallery { padding: 100px 40px; position: relative; z-index: 2; }
+        .gallery-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+        .gallery-grid img { width: 100%; height: 100%; aspect-ratio: 4/5; object-fit: cover; display: block;
+            border: 1px solid rgba(255,255,255,0.07); transition: transform 0.4s, border-color 0.3s; }
+        .gallery-grid img:hover { transform: translateY(-4px); border-color: rgba(255,214,0,0.4); }
+
+        /* ===== ГДЕ МЫ ЗАНИМАЕМСЯ ===== */
+        .place { padding: 100px 40px; background: var(--dark); position: relative; z-index: 2; }
+        .place-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .place-grid img { width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block; border: 1px solid rgba(255,255,255,0.07); }
+        .place-cta { text-align: center; margin-top: 40px; display: flex; gap: 26px; justify-content: center; align-items: center; flex-wrap: wrap; }
+        .place-map { color: var(--yellow); font-weight: 700; text-decoration: none; font-size: 0.9rem; }
+
+        @media (max-width: 980px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 34px; }
+            .hero-split { padding: 105px 20px 60px; }
+            .hero-split h1 { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+            .hero-form { padding: 26px 20px; }
+            .gallery, .place { padding: 70px 20px; }
+        }
         @media (max-width: 900px) {
             .timeline { grid-template-columns: 1fr; }
         }
@@ -127,12 +178,6 @@ JS = """
             }
             return saved;
         })();
-        TRAFFIC_KEYS.forEach(k => { const el = document.getElementById('f_' + k); if (el) el.value = traffic[k] || ''; });
-        document.getElementById('f_referrer').value = traffic.referrer || document.referrer || '';
-        document.getElementById('f_landing').value = traffic.first_landing || location.href;
-        if (window.ym && window.YM_ID) {
-            try { ym(window.YM_ID, 'getClientID', id => { document.getElementById('f_ym_client_id').value = id || ''; }); } catch (e) {}
-        }
 
         // ===== ЖИВОЙ ДЕДЛАЙН =====
         (function () {
@@ -143,9 +188,10 @@ JS = """
             el.textContent = M[now.getDate() > 25 ? (now.getMonth() + 1) % 12 : now.getMonth()];
         })();
 
-        // ===== МАСКА ТЕЛЕФОНА =====
+        // ===== (маска телефона перенесена в обработчик форм) =====
         (function () {
-            const input = document.querySelector('.cta-form input[name="phone"]');
+            const input = null; if (!input) return;
+            const _unused = document.querySelector('.cta-form input[name="phone"]');
             if (!input) return;
             input.setAttribute('inputmode','tel');
             input.placeholder = '+7 (___) ___-__-__';
@@ -177,65 +223,121 @@ JS = """
             else if (h === '#signup') goal('cta_click');
         });
 
-        // ===== ЦЕЛЬ: НАЧАЛО ЗАПОЛНЕНИЯ =====
-        (function () {
-            const f = document.getElementById('signupForm');
-            let fired = false;
-            const fire = () => { if (!fired) { fired = true; goal('form_start'); } };
-            f.addEventListener('input', fire, true);
-            f.addEventListener('change', fire, true);
-        })();
-
-        // ===== ФОРМА =====
+        // ===== ФОРМЫ (их две: на первом экране и внизу) =====
         const FORM_ENDPOINT = 'https://193-29-225-72.sslip.io:8788';
-        document.getElementById('signupForm').addEventListener('submit', async e => {
-            e.preventDefault();
-            const form = e.target, btn = document.getElementById('signupBtn'), status = document.getElementById('formStatus');
-            const fd = new FormData(form);
-            const digits = (fd.get('phone') || '').replace(/\\D/g,'');
-            status.hidden = true; status.className = 'form-status';
-            if (digits.length !== 11) {
-                status.className = 'form-status error';
-                status.textContent = 'Проверьте номер телефона — нужно 11 цифр.';
-                status.hidden = false; goal('form_error', { reason: 'phone' }); return;
-            }
-            const data = {
-                name: (fd.get('name') || '').trim(),
-                phone: '+' + digits,
-                direction: fd.get('direction') || '',
-                age: fd.get('age') || '',
-                website: fd.get('website') || '',
-                consent: fd.get('consent') ? 'yes' : 'no',
-                consent_at: new Date().toISOString(),
-                utm_source: fd.get('utm_source') || '', utm_medium: fd.get('utm_medium') || '',
-                utm_campaign: fd.get('utm_campaign') || '', utm_content: fd.get('utm_content') || '',
-                utm_term: fd.get('utm_term') || '', yclid: fd.get('yclid') || '',
-                ym_client_id: fd.get('ym_client_id') || '',
-                page_referrer: fd.get('page_referrer') || '', landing_page: fd.get('landing_page') || ''
+
+        document.querySelectorAll('.js-lead-form').forEach(form => {
+            const place = form.dataset.place || 'unknown';
+
+            // подставляем метки трафика скрытыми полями
+            const hidden = {
+                utm_source: traffic.utm_source, utm_medium: traffic.utm_medium,
+                utm_campaign: traffic.utm_campaign, utm_content: traffic.utm_content,
+                utm_term: traffic.utm_term, yclid: traffic.yclid,
+                page_referrer: traffic.referrer || document.referrer,
+                landing_page: traffic.first_landing || location.href,
+                ym_client_id: ''
             };
-            btn.disabled = true; const old = btn.textContent; btn.textContent = 'Отправляем...';
-            try {
-                const r = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                const j = await r.json().catch(() => ({}));
-                if (r.ok && j.ok) {
-                    status.className = 'form-status success';
-                    status.textContent = '\\u2713 Заявка принята! Перезвоним в течение 10 минут.';
+            Object.entries(hidden).forEach(([k, v]) => {
+                const i = document.createElement('input');
+                i.type = 'hidden'; i.name = k; i.value = v || '';
+                form.appendChild(i);
+            });
+
+            // цель «начал заполнять»
+            let started = false;
+            const fire = () => { if (!started) { started = true; goal('form_start', { place: place }); } };
+            form.addEventListener('input', fire, true);
+            form.addEventListener('change', fire, true);
+
+            // маска телефона
+            const phone = form.querySelector('input[name="phone"]');
+            if (phone) {
+                phone.setAttribute('inputmode', 'tel');
+                phone.placeholder = '+7 (___) ___-__-__';
+                const fmt = v => {
+                    let d = v.replace(/\D/g, '');
+                    if (d.startsWith('8')) d = '7' + d.slice(1);
+                    if (!d.startsWith('7')) d = '7' + d;
+                    d = d.slice(0, 11);
+                    let o = '+7';
+                    if (d.length > 1) o += ' (' + d.slice(1, 4);
+                    if (d.length >= 4) o += ')';
+                    if (d.length > 4) o += ' ' + d.slice(4, 7);
+                    if (d.length > 7) o += '-' + d.slice(7, 9);
+                    if (d.length > 9) o += '-' + d.slice(9, 11);
+                    return o;
+                };
+                phone.addEventListener('input', () => { phone.value = fmt(phone.value); });
+                phone.addEventListener('focus', () => { if (!phone.value) phone.value = '+7 ('; });
+            }
+
+            form.addEventListener('submit', async e => {
+                e.preventDefault();
+                const btn = form.querySelector('.js-submit');
+                const status = form.querySelector('.js-status');
+                const fd = new FormData(form);
+                const digits = (fd.get('phone') || '').replace(/\D/g, '');
+                status.hidden = true; status.className = 'form-status js-status';
+
+                if (digits.length !== 11) {
+                    status.className = 'form-status js-status error';
+                    status.textContent = 'Проверьте номер телефона — нужно 11 цифр.';
                     status.hidden = false;
-                    goal('lead', { age: data.age, source: data.utm_source || 'direct/organic' });
-                    form.reset();
-                } else {
-                    let msg = 'Что-то пошло не так. Позвоните нам: +7 (912) 191-06-50';
-                    if (j.error === 'too_fast') msg = 'Подождите 30 секунд перед повторной отправкой.';
-                    if (j.error === 'invalid_fields') msg = 'Проверьте имя и телефон — что-то введено некорректно.';
-                    status.className = 'form-status error';
-                    status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
-                    status.hidden = false; goal('form_error', { reason: j.error || 'server' });
+                    goal('form_error', { reason: 'phone', place: place });
+                    return;
                 }
-            } catch (err) {
-                status.className = 'form-status error';
-                status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a>.</div>';
-                status.hidden = false; goal('form_error', { reason: 'network' });
-            } finally { btn.disabled = false; btn.textContent = old; }
+
+                let cid = '';
+                try { cid = await new Promise(res => {
+                    if (!window.ym || !window.YM_ID) return res('');
+                    let done = false;
+                    ym(window.YM_ID, 'getClientID', id => { done = true; res(id || ''); });
+                    setTimeout(() => { if (!done) res(''); }, 600);
+                }); } catch (err) {}
+
+                const data = {
+                    name: (fd.get('name') || '').trim(),
+                    phone: '+' + digits,
+                    direction: fd.get('direction') || '',
+                    age: fd.get('age') || '',
+                    website: fd.get('website') || '',
+                    consent: fd.get('consent') ? 'yes' : 'no',
+                    consent_at: new Date().toISOString(),
+                    form_place: place,
+                    utm_source: fd.get('utm_source') || '', utm_medium: fd.get('utm_medium') || '',
+                    utm_campaign: fd.get('utm_campaign') || '', utm_content: fd.get('utm_content') || '',
+                    utm_term: fd.get('utm_term') || '', yclid: fd.get('yclid') || '',
+                    ym_client_id: cid,
+                    page_referrer: fd.get('page_referrer') || '', landing_page: fd.get('landing_page') || ''
+                };
+
+                btn.disabled = true; const old = btn.textContent; btn.textContent = 'Отправляем...';
+                try {
+                    const r = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                    const j = await r.json().catch(() => ({}));
+                    if (r.ok && j.ok) {
+                        status.className = 'form-status js-status success';
+                        status.textContent = '\u2713 Заявка принята! Перезвоним в течение 10 минут.';
+                        status.hidden = false;
+                        goal('lead', { age: data.age, place: place, source: data.utm_source || 'direct/organic' });
+                        form.reset();
+                    } else {
+                        let msg = 'Что-то пошло не так. Позвоните нам: +7 (912) 191-06-50';
+                        if (j.error === 'too_fast') msg = 'Подождите 30 секунд перед повторной отправкой.';
+                        if (j.error === 'invalid_fields') msg = 'Проверьте имя и телефон — что-то введено некорректно.';
+                        status.className = 'form-status js-status error';
+                        status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
+                        status.hidden = false;
+                        goal('form_error', { reason: j.error || 'server', place: place });
+                    }
+                } catch (err) {
+                    status.className = 'form-status js-status error';
+                    status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a>.</div>';
+                    status.hidden = false;
+                    goal('form_error', { reason: 'network', place: place });
+                } finally { btn.disabled = false; btn.textContent = old; }
+            });
         });
 
         // ===== FAQ-АККОРДЕОН =====
@@ -364,9 +466,21 @@ def build():
 
         vids = d.get('videos') or ALL_VIDEOS
         videos = ''.join(
-            '<video%s src="/videos/web/%s.mp4" controls preload="%s" playsinline></video>'
-            % (' class="active"' if n == 0 else '', v, 'metadata' if n == 0 else 'none')
+            '<video%s src="/videos/web/%s.mp4" poster="/assets/posters/%s.webp" controls preload="%s" playsinline></video>'
+            % (' class="active"' if n == 0 else '', v, v, 'metadata' if n == 0 else 'none')
             for n, v in enumerate(vids))
+
+        gal = d.get('gallery') or []
+        if gal:
+            cards = ''.join(
+                '<img src="/assets/photos/%s" width="760" height="950" loading="lazy" decoding="async" alt="%s">'
+                % (g['src'], esc(g['alt'])) for g in gal)
+            gallery = ('<section class="gallery"><div class="section-title">'
+                       '<h2>Наши ученики <span>на сцене</span></h2>'
+                       '<p>Реальные фотографии с занятий и отчётных концертов. Без стоков.</p></div>'
+                       '<div class="gallery-grid">%s</div></section>' % cards)
+        else:
+            gallery = ''
 
         others = [x for x in dirs if x['slug'] != d['slug']]
         other = ''.join(
@@ -429,6 +543,7 @@ def build():
             'TRIAL': trial, 'TIMELINE': timeline, 'OBJECTIONS': objections,
             'FOR_WHO': for_who, 'FAQ': faq, 'VIDEOS': videos,
             'OTHER': other, 'FOOTER_DIRS': footer_dirs, 'PRICES': prices_block,
+            'HERO_IMG': d.get('hero_img', 'interior-1.webp'), 'GALLERY': gallery,
         }.items():
             page = page.replace('{{%s}}' % k, v)
 

@@ -65,29 +65,46 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-    <div class="hero-content">
-        <div class="hero-badge">{{ICON}} {{NAME}} · Сыктывкар</div>
-        <h1>{{H1}}</h1>
-        <p>{{SUB}}</p>
-
-        <div class="facts-bar">
-            <div class="fact"><span class="fact-k">Пробный урок</span><span class="fact-v">Бесплатно, 30 минут</span></div>
-            <div class="fact"><span class="fact-k">Формат</span><span class="fact-v">Только индивидуально</span></div>
-            <div class="fact"><span class="fact-k">Адрес</span><a class="fact-v" href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">ул. Карла Маркса, 192</a></div>
-            <div class="fact"><span class="fact-k">Телефон</span><a class="fact-v" href="tel:+79121910650" data-goal="phone_click">+7 (912) 191-06-50</a></div>
+<section class="hero hero-split">
+    <div class="hero-bg" style="background-image:url('/assets/photos/{{HERO_IMG}}')"></div>
+    <div class="hero-grid">
+        <div class="hero-left">
+            <div class="hero-badge">{{ICON}} {{NAME}} · Сыктывкар</div>
+            <h1>{{H1}}</h1>
+            <p>{{SUB}}</p>
+            <div class="facts-bar">
+                <div class="fact"><span class="fact-k">Пробный урок</span><span class="fact-v">Бесплатно, 30 минут</span></div>
+                <div class="fact"><span class="fact-k">Формат</span><span class="fact-v">Только индивидуально</span></div>
+                <div class="fact"><span class="fact-k">Адрес</span><a class="fact-v" href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">ул. Карла Маркса, 192</a></div>
+                <div class="fact"><span class="fact-k">Телефон</span><a class="fact-v" href="tel:+79121910650" data-goal="phone_click">+7 (912) 191-06-50</a></div>
+            </div>
+            <div class="hero-micro-proof">★ 100+ учеников уже выступили на сцене</div>
         </div>
 
-        <div class="hero-urgency">
-            <span class="urgency-dot"></span>
-            Осталось <strong>3 места</strong> на <span id="heroMonth">этот месяц</span> — индивидуальный формат ограничен
-        </div>
-
-        <div class="hero-buttons">
-            <a href="#signup" class="btn-primary">Записаться на бесплатный урок</a>
-        </div>
-        <div class="hero-micro-fast">Перезвоним в течение 10 минут &nbsp;·&nbsp; Без спама</div>
-        <div class="hero-micro-proof">★ 100+ учеников уже выступили на сцене</div>
+        <aside class="hero-form" id="signup-top">
+            <h2>Пробный урок — <span>бесплатно</span></h2>
+            <p class="hf-sub">30 минут. Без обязательств. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
+            <form class="cta-form js-lead-form" data-place="hero">
+                <input type="text" name="name" placeholder="Ваше имя" required minlength="2" maxlength="60">
+                <input type="tel" name="phone" placeholder="Телефон" required>
+                <input type="hidden" name="direction" value="{{FORM_VALUE}}">
+                <select name="age" required>
+                    <option value="" disabled selected>Возраст ученика</option>
+                    <option value="child">Ребёнок (5-12 лет)</option>
+                    <option value="teen">Подросток (13-17 лет)</option>
+                    <option value="adult">Взрослый (18+)</option>
+                </select>
+                <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
+                <button type="submit" class="btn-primary js-submit">Записаться бесплатно</button>
+                <div class="cta-spots"><span class="urgency-dot"></span> Перезвоним за 10 минут · Без спама</div>
+                <label class="consent">
+                    <input type="checkbox" name="consent" required>
+                    <span>Согласен на <a href="/privacy.html" target="_blank" rel="noopener">обработку персональных данных</a></span>
+                </label>
+                <div class="form-status js-status" hidden></div>
+            </form>
+            <div class="hf-alt">Или позвоните: <a href="tel:+79121910650" data-goal="phone_click">+7 (912) 191-06-50</a></div>
+        </aside>
     </div>
 </section>
 
@@ -97,7 +114,7 @@
         <h2>Что будет на <span>пробном уроке</span></h2>
         <p>Бесплатно. 30 минут. Без обязательств и без «купите абонемент прямо сейчас».</p>
         <div class="trial-list">{{TRIAL}}</div>
-        <a href="#signup" class="btn-primary">Записаться бесплатно</a>
+        <a href="#signup-top" class="btn-primary">Записаться бесплатно</a>
     </div>
 </section>
 
@@ -108,7 +125,7 @@
         <p>Без «через год начнёте что-то понимать». Конкретные сроки по {{NAME_LOWER}}.</p>
     </div>
     <div class="timeline">{{TIMELINE}}</div>
-    <div class="timeline-cta"><a href="#signup" class="btn-primary">Начать с бесплатного урока</a></div>
+    <div class="timeline-cta"><a href="#signup-top" class="btn-primary">Начать с бесплатного урока</a></div>
 </section>
 
 <!-- ПОЧЕМУ МЫ -->
@@ -151,6 +168,26 @@
     <div class="for-who-grid">{{FOR_WHO}}</div>
 </section>
 
+<!-- ГАЛЕРЕЯ НАПРАВЛЕНИЯ -->
+{{GALLERY}}
+
+<!-- ГДЕ МЫ ЗАНИМАЕМСЯ -->
+<section class="place">
+    <div class="section-title">
+        <h2>Где мы <span>занимаемся</span></h2>
+        <p>Сыктывкар, ул. Карла Маркса, 192, 6 этаж. Свои инструменты приносить не нужно.</p>
+    </div>
+    <div class="place-grid">
+        <img src="/assets/photos/interior-1.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Класс школы музыки «Твоя Сцена» в Сыктывкаре — гитары на стене">
+        <img src="/assets/photos/interior-2.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Класс с барабанной установкой в школе «Твоя Сцена»">
+        <img src="/assets/photos/interior-3.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Школа музыки «Твоя Сцена», Карла Маркса 192">
+    </div>
+    <div class="place-cta">
+        <a class="btn-primary" href="#signup-top">Записаться на бесплатный урок</a>
+        <a class="place-map" href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">Посмотреть на карте →</a>
+    </div>
+</section>
+
 <!-- ВОЗРАЖЕНИЯ -->
 <section class="objections">
     <div class="section-title"><h2>Да, мы <span>слышали</span></h2></div>
@@ -172,7 +209,7 @@
 <section class="cta-section" id="signup">
     <h2>Запишись на <span>пробный урок</span></h2>
     <p>Бесплатно. 30 минут. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
-    <form class="cta-form" id="signupForm">
+    <form class="cta-form js-lead-form" data-place="bottom">
         <input type="text" name="name" placeholder="Ваше имя" required minlength="2" maxlength="60">
         <input type="tel" name="phone" placeholder="Телефон" required>
         <input type="hidden" name="direction" value="{{FORM_VALUE}}">
@@ -182,23 +219,14 @@
             <option value="teen">Подросток (13-17 лет)</option>
             <option value="adult">Взрослый (18+)</option>
         </select>
-        <input type="hidden" name="utm_source" id="f_utm_source">
-        <input type="hidden" name="utm_medium" id="f_utm_medium">
-        <input type="hidden" name="utm_campaign" id="f_utm_campaign">
-        <input type="hidden" name="utm_content" id="f_utm_content">
-        <input type="hidden" name="utm_term" id="f_utm_term">
-        <input type="hidden" name="yclid" id="f_yclid">
-        <input type="hidden" name="ym_client_id" id="f_ym_client_id">
-        <input type="hidden" name="page_referrer" id="f_referrer">
-        <input type="hidden" name="landing_page" id="f_landing">
         <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
-        <button type="submit" class="btn-primary" id="signupBtn">Записаться на бесплатный урок</button>
+        <button type="submit" class="btn-primary js-submit">Записаться на бесплатный урок</button>
         <div class="cta-spots"><span class="urgency-dot"></span> Перезвоним за 10 минут · Без спама</div>
         <label class="consent">
-            <input type="checkbox" name="consent" id="consentBox" required>
+            <input type="checkbox" name="consent" required>
             <span>Я согласен(на) на <a href="/privacy.html" target="_blank" rel="noopener">обработку персональных данных</a> и ознакомлен(а) с политикой конфиденциальности</span>
         </label>
-        <div class="form-status" id="formStatus" hidden></div>
+        <div class="form-status js-status" hidden></div>
     </form>
     <div class="cta-alt">
         Неудобно заполнять? <a href="tel:+79121910650" data-goal="phone_click">Позвоните: +7 (912) 191-06-50</a>
