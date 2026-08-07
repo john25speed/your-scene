@@ -493,8 +493,11 @@
     </style>
     <style>
         /* ===== ДОБАВЛЕНО ДЛЯ ПОСАДОЧНЫХ ПО НАПРАВЛЕНИЯМ ===== */
-        .nav-phone { color: var(--yellow); text-decoration: none; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.5px; white-space: nowrap; margin-left: auto; margin-right: 24px; }
+        nav { gap: 28px; }
+        .nav-links { gap: 22px; flex: 0 1 auto; }
+        .nav-phone { color: var(--yellow); text-decoration: none; font-weight: 800; font-size: 0.95rem; letter-spacing: 0.5px; white-space: nowrap; }
         .nav-phone:hover { color: var(--yellow-hover); }
+        @media (max-width: 1200px) { .nav-links a { font-size: 0.78rem; } .nav-links { gap: 16px; } }
 
         /* Строка фактов на первом экране */
         .facts-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; max-width: 900px; margin: 0 auto 30px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); }
