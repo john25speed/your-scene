@@ -97,9 +97,12 @@ EXTRA_CSS = """
 
         /* ===== ПЕРВЫЙ ЭКРАН С ФОРМОЙ ===== */
         .hero-split { min-height: auto; padding: 130px 40px 80px; display: block; position: relative; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center 35%; opacity: 0.30; z-index: 0; }
+        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center 32%;
+            opacity: 0.62; filter: saturate(1.15) contrast(1.05); z-index: 0; }
         .hero-split::after { content: ''; position: absolute; inset: 0; z-index: 1;
-            background: linear-gradient(90deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.80) 45%, rgba(10,10,10,0.92) 100%); }
+            background: linear-gradient(90deg, rgba(10,10,10,0.90) 0%, rgba(10,10,10,0.52) 46%, rgba(10,10,10,0.84) 100%); }
+        /* ноты летят поверх фото, но под текстом */
+        #notesCanvas { z-index: 2; opacity: 0.45; }
         .hero-grid { position: relative; z-index: 3; max-width: 1240px; margin: 0 auto;
             display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; text-align: left; }
         .hero-left { max-width: none; }
@@ -142,11 +145,42 @@ EXTRA_CSS = """
         .place-map { color: var(--yellow); font-weight: 700; text-decoration: none; font-size: 0.9rem; }
 
         @media (max-width: 980px) {
-            .hero-grid { grid-template-columns: 1fr; gap: 34px; }
-            .hero-split { padding: 105px 20px 60px; }
-            .hero-split h1 { font-size: clamp(1.8rem, 7vw, 2.6rem); }
-            .hero-form { padding: 26px 20px; }
-            .gallery, .place { padding: 70px 20px; }
+            /* форма поднимается сразу под оффер, факты уходят под неё */
+            .hero-grid { display: flex; flex-direction: column; gap: 20px; }
+            .hero-left { display: contents; }
+            .hero-badge { order: 1; }
+            .hero-split h1 { order: 2; font-size: clamp(1.75rem, 7.6vw, 2.5rem); margin-bottom: 12px; }
+            .hero-left > p { order: 3; margin-bottom: 0; }
+            .hero-form { order: 4; padding: 24px 18px; }
+            .facts-bar { order: 5; margin: 0; }
+            .hero-micro-proof { order: 6; margin-top: 0; }
+            .hero-split { padding: 100px 18px 56px; }
+            .hero-split::after { background: linear-gradient(180deg, rgba(10,10,10,0.72) 0%, rgba(10,10,10,0.86) 55%, rgba(10,10,10,0.94) 100%); }
+            .hero-bg { opacity: 0.55; background-position: center 28%; }
+            /* факты в две колонки, а не простынёй */
+            .facts-bar { flex-direction: row; flex-wrap: wrap; }
+            .facts-bar .fact { flex: 1 1 45%; min-width: 45%; padding: 12px 14px; text-align: left; align-items: flex-start;
+                border-right: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); }
+            .fact-k { font-size: 0.62rem; letter-spacing: 1px; }
+            .fact-v { font-size: 0.85rem; }
+            .gallery, .place { padding: 64px 18px; }
+            /* ноты нужны и на телефоне */
+            #notesCanvas { display: block !important; opacity: 0.38; }
+            /* горизонтальная прокрутка: колонку распирало минимальной шириной содержимого */
+            .advantages-grid { grid-template-columns: minmax(0, 1fr) !important; }
+            .advantage-item { width: auto !important; min-width: 0 !important; max-width: 100%; flex-wrap: wrap !important; }
+            .advantage-item > * { min-width: 0 !important; max-width: 100% !important; }
+            .objections-grid, .for-who-grid, .gallery-grid, .timeline { grid-template-columns: minmax(0, 1fr) !important; }
+            .stats-grid { grid-template-columns: 1fr 1fr !important; }
+            .advantages, .objections, .for-who, .cta-section, .trial-lesson, .video-section { padding-left: 18px; padding-right: 18px; }
+            .other-dirs-grid { grid-template-columns: 1fr 1fr; }
+            /* ничто не должно быть шире экрана */
+            img, video, iframe { max-width: 100%; }
+            section, .hero-grid, .facts-bar, .gallery-grid, .place-grid { max-width: 100%; }
+        }
+        @media (max-width: 420px) {
+            .facts-bar .fact { flex: 1 1 100%; min-width: 100%; border-right: none; }
+            .other-dirs-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 900px) {
             .timeline { grid-template-columns: 1fr; }
@@ -408,11 +442,11 @@ JS = """
             function resize() { c.width = innerWidth; c.height = innerHeight; }
             function init() {
                 resize();
-                const n = innerWidth < 768 ? 12 : 26;
+                const n = innerWidth < 768 ? 16 : 30;
                 notes = Array.from({ length: n }, () => ({
                     x: Math.random() * c.width, y: Math.random() * c.height,
                     s: 12 + Math.random() * 20, v: 0.2 + Math.random() * 0.5,
-                    g: GLYPHS[(Math.random() * GLYPHS.length) | 0], a: 0.15 + Math.random() * 0.35
+                    g: GLYPHS[(Math.random() * GLYPHS.length) | 0], a: 0.22 + Math.random() * 0.45
                 }));
             }
             function draw() {
