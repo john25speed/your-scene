@@ -568,6 +568,32 @@ def build():
                          "acceptedAnswer": {"@type": "Answer", "text": q['a']}}
                         for q in d['faq']
                     ]
+                },
+                {
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        {"@type": "ListItem", "position": 1, "name": "Твоя Сцена", "item": SITE + "/"},
+                        {"@type": "ListItem", "position": 2, "name": d['name'], "item": url}
+                    ]
+                },
+                {
+                    "@type": "Course",
+                    "name": "Индивидуальные уроки: %s в Сыктывкаре" % d['name'],
+                    "description": d['description'],
+                    "url": url,
+                    "provider": {"@type": "Organization", "name": "Твоя Сцена", "url": SITE + "/"},
+                    "inLanguage": "ru",
+                    "hasCourseInstance": {
+                        "@type": "CourseInstance",
+                        "courseMode": "onsite",
+                        "courseWorkload": "PT1H",
+                        "location": {
+                            "@type": "Place",
+                            "name": "Твоя Сцена",
+                            "address": {"@type": "PostalAddress", "streetAddress": "ул. Карла Маркса, 192",
+                                        "addressLocality": "Сыктывкар", "addressCountry": "RU"}
+                        }
+                    }
                 }
             ]
         }, ensure_ascii=False, indent=None)
@@ -600,9 +626,16 @@ def build():
     today = datetime.date.today().isoformat()
     urls = ['<url><loc>%s/</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>' % (SITE, today)]
     for d in dirs:
-        urls.append('<url><loc>%s/%s/</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>' % (SITE, quote(d['slug']), today))
+        imgs = ''.join(
+            '<image:image><image:loc>%s/assets/photos/%s</image:loc><image:title>%s</image:title></image:image>'
+            % (SITE, g['src'], esc(g['alt'])) for g in (d.get('gallery') or []))
+        hero = ('<image:image><image:loc>%s/assets/photos/%s</image:loc><image:title>%s</image:title></image:image>'
+                % (SITE, d.get('hero_img',''), esc(d['name'] + ' — школа музыки «Твоя Сцена», Сыктывкар')))
+        urls.append('<url><loc>%s/%s/</loc><lastmod>%s</lastmod><changefreq>weekly</changefreq><priority>0.9</priority>%s%s</url>'
+                    % (SITE, quote(d['slug']), today, hero, imgs))
     write(os.path.join(ROOT, 'sitemap.xml'),
-          '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  '
+          '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+          'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n  '
           + '\n  '.join(urls) + '\n</urlset>\n')
 
     # GitHub Pages: без этого файла Jekyll может не отдать папки с кириллицей
