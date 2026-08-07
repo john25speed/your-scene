@@ -580,8 +580,14 @@
 
         /* ===== ГДЕ МЫ ЗАНИМАЕМСЯ ===== */
         .place { padding: 100px 40px; background: var(--dark); position: relative; z-index: 2; }
-        .place-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-        .place-grid img { width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block; border: 1px solid rgba(255,255,255,0.07); }
+        /* кладка: каждое фото сохраняет свои пропорции, класс видно целиком */
+        .place-grid { max-width: 1180px; margin: 0 auto; column-count: 3; column-gap: 16px; }
+        .place-grid img { width: 100%; height: auto; display: block; margin-bottom: 16px;
+            break-inside: avoid; -webkit-column-break-inside: avoid; border: 1px solid rgba(255,255,255,0.07);
+            transition: border-color 0.3s; }
+        .place-grid img:hover { border-color: rgba(255,214,0,0.35); }
+        @media (max-width: 900px) { .place-grid { column-count: 2; } }
+        @media (max-width: 560px) { .place-grid { column-count: 1; } }
         .place-cta { text-align: center; margin-top: 40px; display: flex; gap: 26px; justify-content: center; align-items: center; flex-wrap: wrap; }
         .place-map { color: var(--yellow); font-weight: 700; text-decoration: none; font-size: 0.9rem; }
 
@@ -630,7 +636,7 @@
             <h1>Поставим <span>голос</span> — запоёшь уже на первом уроке</h1>
             <p>Индивидуальные занятия в Сыктывкаре. <strong>Даже если ты уверен, что тебе медведь на ухо наступил.</strong> Слух — это навык, и он тренируется.</p>
             <div class="facts-bar">
-                <div class="fact"><span class="fact-k">Пробный урок</span><span class="fact-v">Бесплатно, 30 минут</span></div>
+                <div class="fact"><span class="fact-k">Пробный урок</span><span class="fact-v">Бесплатно, 1 час</span></div>
                 <div class="fact"><span class="fact-k">Формат</span><span class="fact-v">Только индивидуально</span></div>
                 <div class="fact"><span class="fact-k">Адрес</span><a class="fact-v" href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">ул. Карла Маркса, 192</a></div>
                 <div class="fact"><span class="fact-k">Телефон</span><a class="fact-v" href="tel:+79121910650" data-goal="phone_click">+7 (912) 191-06-50</a></div>
@@ -640,7 +646,7 @@
 
         <aside class="hero-form" id="signup-top">
             <h2>Пробный урок — <span>бесплатно</span></h2>
-            <p class="hf-sub">30 минут. Без обязательств. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
+            <p class="hf-sub">Целый час. Без обязательств. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
             <form class="cta-form js-lead-form" data-place="hero">
                 <input type="text" name="name" placeholder="Ваше имя" required minlength="2" maxlength="60">
                 <input type="tel" name="phone" placeholder="Телефон" required>
@@ -669,7 +675,7 @@
 <section class="trial-lesson" id="trial">
     <div class="trial-content">
         <h2>Что будет на <span>пробном уроке</span></h2>
-        <p>Бесплатно. 30 минут. Без обязательств и без «купите абонемент прямо сейчас».</p>
+        <p>Бесплатно. Целый час. Без обязательств и без «купите абонемент прямо сейчас».</p>
         <div class="trial-list"><div class="trial-item"><span class="trial-num">01</span><span class="trial-text">Определим диапазон и тип твоего голоса</span></div><div class="trial-item"><span class="trial-num">02</span><span class="trial-text">Поставим дыхание — то, на чём держится весь вокал</span></div><div class="trial-item"><span class="trial-num">03</span><span class="trial-text">Споёшь куплет песни, которую сам любишь</span></div><div class="trial-item"><span class="trial-num">04</span><span class="trial-text">Подберём репертуар, который ляжет на твой голос</span></div></div>
         <a href="#signup-top" class="btn-primary">Записаться бесплатно</a>
     </div>
@@ -732,13 +738,17 @@
 <section class="place">
     <div class="section-title">
         <h2>Где мы <span>занимаемся</span></h2>
-        <p>Сыктывкар, ул. Карла Маркса, 192, 6 этаж. Свои инструменты приносить не нужно.</p>
+        <p>Сыктывкар, ул. Карла Маркса, 192, 6 этаж. Отдельные классы под каждое направление, свои инструменты приносить не нужно.</p>
     </div>
     <div class="place-grid">
-        <img src="/assets/photos/interior-1.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Класс школы музыки «Твоя Сцена» в Сыктывкаре — гитары на стене">
-        <img src="/assets/photos/interior-2.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Класс с барабанной установкой в школе «Твоя Сцена»">
-        <img src="/assets/photos/interior-3.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Школа музыки «Твоя Сцена», Карла Маркса 192">
+        <img src="/assets/photos/interior-1.webp" width="1100" height="825" loading="lazy" decoding="async" alt="Класс школы «Твоя Сцена»: гитары на стене с неоновой подсветкой">
+        <img src="/assets/photos/interior-2.webp" width="825" height="1100" loading="lazy" decoding="async" alt="Класс с барабанной установкой в школе «Твоя Сцена»">
+        <img src="/assets/photos/interior-3.webp" width="1100" height="825" loading="lazy" decoding="async" alt="Барабанная установка в классе, Сыктывкар">
+        <img src="/assets/photos/interior-4.webp" width="825" height="1100" loading="lazy" decoding="async" alt="Класс для занятий на ударной установке">
+        <img src="/assets/photos/interior-5.webp" width="825" height="1100" loading="lazy" decoding="async" alt="Инструменты в классе школы музыки «Твоя Сцена»">
+        <img src="/assets/photos/interior-6.webp" width="825" height="1100" loading="lazy" decoding="async" alt="Школа музыки «Твоя Сцена», Карла Маркса 192, 6 этаж">
     </div>
+
     <div class="place-cta">
         <a class="btn-primary" href="#signup-top">Записаться на бесплатный урок</a>
         <a class="place-map" href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">Посмотреть на карте →</a>
@@ -765,7 +775,7 @@
 <!-- ФОРМА -->
 <section class="cta-section" id="signup">
     <h2>Запишись на <span>пробный урок</span></h2>
-    <p>Бесплатно. 30 минут. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
+    <p>Бесплатно. Целый час. Уже на первом занятии ты сыграешь свою первую мелодию.</p>
     <form class="cta-form js-lead-form" data-place="bottom">
         <input type="text" name="name" placeholder="Ваше имя" required minlength="2" maxlength="60">
         <input type="tel" name="phone" placeholder="Телефон" required>
