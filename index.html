@@ -8,6 +8,63 @@
     <meta property="og:title" content="Твоя Сцена — Школа музыки в Сыктывкаре">
     <meta property="og:description" content="Научим играть с нуля и выведем на сцену за 2–3 месяца. Индивидуальные занятия для взрослых и детей.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tvoyascena.ru/">
+    <meta property="og:image" content="https://tvoyascena.ru/assets/logo.png">
+    <meta property="og:locale" content="ru_RU">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="canonical" href="https://tvoyascena.ru/">
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+
+    <!-- ===== ЯНДЕКС.МЕТРИКА ===== -->
+    <script>
+        window.YM_ID = 111352709;
+    </script>
+    <script>
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        if (window.YM_ID) {
+            ym(window.YM_ID, "init", {
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                ecommerce: "dataLayer"
+            });
+        }
+        // Единая обёртка целей: если счётчик не подключён — тихо ничего не делает.
+        window.goal = function (name, params) {
+            try { if (window.ym && window.YM_ID) ym(window.YM_ID, 'reachGoal', name, params || {}); } catch (e) {}
+            try { console.debug('[goal]', name, params || {}); } catch (e) {}
+        };
+    </script>
+
+    <!-- ===== SCHEMA.ORG: организация для Яндекса ===== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicSchool",
+      "name": "Твоя Сцена",
+      "description": "Школа музыки в Сыктывкаре. Индивидуальные занятия: гитара, вокал, барабаны, фортепиано, бас-гитара, укулеле.",
+      "url": "https://tvoyascena.ru/",
+      "logo": "https://tvoyascena.ru/assets/logo.png",
+      "image": "https://tvoyascena.ru/assets/logo.png",
+      "telephone": "+7-912-191-06-50",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Карла Маркса, 192",
+        "addressLocality": "Сыктывкар",
+        "addressRegion": "Республика Коми",
+        "addressCountry": "RU"
+      },
+      "sameAs": ["https://vk.com/your_scene_11sykt"],
+      "areaServed": "Сыктывкар"
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -394,6 +451,15 @@
         .cta-form .privacy { font-size: 0.75rem; color: var(--gray); }
         .cta-form .privacy a { color: var(--yellow); text-decoration: none; }
         .cta-spots { display: flex; align-items: center; justify-content: center; gap: 8px; color: #ff6b6b; font-size: 0.85rem; font-weight: 700; }
+        .consent { display: flex; align-items: flex-start; gap: 10px; text-align: left; font-size: 0.75rem; color: var(--gray); line-height: 1.5; }
+        .consent input[type="checkbox"] { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; accent-color: var(--yellow); cursor: pointer; }
+        .consent a { color: var(--yellow); text-decoration: underline; }
+        .form-fallback { margin-top: 10px; font-size: 0.85rem; color: var(--light-gray); }
+        .form-fallback a { color: var(--yellow); font-weight: 700; text-decoration: none; }
+        .cta-alt { margin-top: 18px; font-size: 0.85rem; color: var(--gray); }
+        .cta-alt a { color: var(--yellow); font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(255,214,0,0.35); }
+        .footer-legal { max-width: 1100px; margin: 0 auto; padding: 0 0 24px; font-size: 0.72rem; color: #777; line-height: 1.7; }
+        .footer-legal a { color: #999; text-decoration: underline; }
         .form-status { padding: 14px 18px; font-size: 0.9rem; font-weight: 600; text-align: center; }
         .form-status.success { background: rgba(0, 200, 100, 0.12); border: 1px solid rgba(0, 200, 100, 0.35); color: #4eff9b; }
         .form-status.error { background: rgba(255, 80, 80, 0.12); border: 1px solid rgba(255, 80, 80, 0.35); color: #ff8b8b; }
@@ -454,7 +520,7 @@
 
     <!-- NAV -->
     <nav>
-        <a href="#" class="nav-logo"><img src="assets/logo.png" alt="Твоя Сцена">ТВОЯ <span>СЦЕНА</span></a>
+        <a href="/" class="nav-logo"><img src="assets/logo.png" alt="Твоя Сцена">ТВОЯ <span>СЦЕНА</span></a>
         <ul class="nav-links" id="navLinks">
             <li><a href="#directions">Направления</a></li>
             <li><a href="#advantages">Преимущества</a></li>
@@ -472,11 +538,11 @@
     <section class="hero">
         <div class="hero-content">
             <div class="hero-badge">Школа музыки в Сыктывкаре</div>
-            <h1>Научим играть с нуля и выведем <span>на сцену</span> за 2&ndash;3 месяца</h1>
-            <p>Индивидуальные занятия для взрослых и детей. <strong>Уже на первом уроке сыграешь свою первую мелодию.</strong></p>
+            <h1 id="heroH1">Научим играть с нуля и выведем <span>на сцену</span> за 2&ndash;3 месяца</h1>
+            <p id="heroSub">Индивидуальные занятия для взрослых и детей. <strong>Уже на первом уроке сыграешь свою первую мелодию.</strong></p>
             <div class="hero-urgency">
                 <span class="urgency-dot"></span>
-                Осталось <strong>3 места</strong> на апрель &mdash; индивидуальный формат ограничен
+                Осталось <strong>3 места</strong> на <span id="heroMonth">этот месяц</span> &mdash; индивидуальный формат ограничен
             </div>
             <div class="hero-buttons">
                 <a href="#signup" class="btn-primary">Записаться на бесплатный урок</a>
@@ -688,28 +754,28 @@
     <section class="health" id="health">
         <div class="section-title">
             <h2>Музыка &mdash; это <span>здоровье</span></h2>
-            <p>Научно доказано. Не маркетинг &mdash; медицина.</p>
+            <p>Что показывают исследования о занятиях музыкой.</p>
         </div>
         <div class="health-grid">
             <div class="health-card">
                 <span class="card-icon">🧠</span>
                 <h3>Для <span>взрослых</span></h3>
                 <ul class="health-list">
-                    <li><strong>−64% к риску деменции</strong> и болезни Альцгеймера</li>
-                    <li>Снижение тревожности и кортизола, улучшение памяти</li>
+                    <li>Исследования связывают регулярные занятия музыкой с <strong>более медленным возрастным снижением памяти</strong></li>
+                    <li>Помогает переключиться и снизить уровень стресса после работы</li>
                     <li>Социализация и новый круг общения в любом возрасте</li>
                 </ul>
-                <div class="health-source">Journal of Neuroscience, 2023</div>
+                <div class="health-source">По данным исследований о влиянии музыкальных занятий на когнитивные функции. Не является медицинской рекомендацией.</div>
             </div>
             <div class="health-card">
                 <span class="card-icon">🌱</span>
                 <h3>Для <span>детей</span></h3>
                 <ul class="health-list">
-                    <li><strong>Лучшая успеваемость</strong> по математике и языкам</li>
+                    <li>Исследователи отмечают связь занятий музыкой с <strong>развитием внимания и памяти</strong></li>
                     <li>Развитие дисциплины, концентрации, эмоционального интеллекта</li>
                     <li>Уверенность в себе через выступления на сцене</li>
                 </ul>
-                <div class="health-source">Harvard Medical School</div>
+                <div class="health-source">По данным исследований о влиянии музыкальных занятий на развитие детей. Не является медицинской рекомендацией.</div>
             </div>
         </div>
     </section>
@@ -766,13 +832,30 @@
                 <option value="teen">Подросток (13-17 лет)</option>
                 <option value="adult">Взрослый (18+)</option>
             </select>
+            <!-- UTM / источник трафика — заполняются автоматически из URL -->
+            <input type="hidden" name="utm_source" id="f_utm_source">
+            <input type="hidden" name="utm_medium" id="f_utm_medium">
+            <input type="hidden" name="utm_campaign" id="f_utm_campaign">
+            <input type="hidden" name="utm_content" id="f_utm_content">
+            <input type="hidden" name="utm_term" id="f_utm_term">
+            <input type="hidden" name="yclid" id="f_yclid">
+            <input type="hidden" name="ym_client_id" id="f_ym_client_id">
+            <input type="hidden" name="page_referrer" id="f_referrer">
+            <input type="hidden" name="landing_page" id="f_landing">
             <!-- honeypot for bots: visible only to crawlers -->
             <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
             <button type="submit" class="btn-primary" id="signupBtn">Записаться на бесплатный урок</button>
             <div class="cta-spots"><span class="urgency-dot"></span> Перезвоним за 10 минут · Без спама</div>
-            <div class="privacy">Нажимая кнопку, вы соглашаетесь с <a href="#">обработкой персональных данных</a></div>
+            <label class="consent">
+                <input type="checkbox" name="consent" id="consentBox" required>
+                <span>Я согласен(на) на <a href="privacy.html" target="_blank" rel="noopener">обработку персональных данных</a> и ознакомлен(а) с <a href="privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a></span>
+            </label>
             <div class="form-status" id="formStatus" hidden></div>
         </form>
+        <div class="cta-alt">
+            Неудобно заполнять? <a href="tel:+79121910650" data-goal="phone_click">Позвоните: +7 (912) 191-06-50</a>
+            &nbsp;·&nbsp; <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener" data-goal="vk_message">Написать в VK</a>
+        </div>
     </section>
 
     <!-- STICKY MOBILE CTA -->
@@ -803,8 +886,14 @@
                 <h4>Контакты</h4>
                 <a href="tel:+79121910650">+7 (912) 191-06-50</a>
                 <a href="https://vk.com/your_scene_11sykt" target="_blank">VK сообщество</a>
-                <a href="#">г. Сыктывкар, ул. Карла Маркса, 192</a>
+                <a href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">г. Сыктывкар, ул. Карла Маркса, 192</a>
             </div>
+        </div>
+        <div class="footer-legal">
+            ИП Соколов Дмитрий Сергеевич · ИНН 110504280155 · ОГРНИП 323112100013474<br>
+            <a href="privacy.html">Политика обработки персональных данных</a> ·
+            <a href="tel:+79121910650">+7 (912) 191-06-50</a> ·
+            Цены на сайте не являются публичной офертой.
         </div>
         <div class="footer-bottom">
             &copy; 2026 «Твоя Сцена». Школа музыки в Сыктывкаре.
@@ -820,6 +909,130 @@
             link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('active'));
         });
 
+        // ===== ИСТОЧНИК ТРАФИКА: UTM, yclid, ClientID Метрики =====
+        // Метки живут в sessionStorage: человек мог зайти с Директа, походить
+        // по якорям и отправить форму позже — метка не должна потеряться.
+        const TRAFFIC_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','yclid'];
+        const traffic = (function () {
+            const url = new URLSearchParams(location.search);
+            let saved = {};
+            try { saved = JSON.parse(sessionStorage.getItem('ts_traffic') || '{}'); } catch (e) {}
+            let touched = false;
+            TRAFFIC_KEYS.forEach(k => {
+                const v = url.get(k);
+                if (v) { saved[k] = v.slice(0, 200); touched = true; }
+            });
+            if (touched || !saved.first_landing) {
+                saved.first_landing = saved.first_landing || location.href.slice(0, 500);
+                saved.referrer = saved.referrer || document.referrer.slice(0, 300);
+                try { sessionStorage.setItem('ts_traffic', JSON.stringify(saved)); } catch (e) {}
+            }
+            return saved;
+        })();
+
+        TRAFFIC_KEYS.forEach(k => {
+            const el = document.getElementById('f_' + k);
+            if (el) el.value = traffic[k] || '';
+        });
+        const refEl = document.getElementById('f_referrer');
+        if (refEl) refEl.value = traffic.referrer || document.referrer || '';
+        const landEl = document.getElementById('f_landing');
+        if (landEl) landEl.value = traffic.first_landing || location.href;
+
+        // ClientID Метрики — нужен, чтобы потом загружать офлайн-конверсии
+        // (кто из заявок реально дошёл и купил абонемент).
+        if (window.ym && window.YM_ID) {
+            try {
+                ym(window.YM_ID, 'getClientID', function (id) {
+                    const el = document.getElementById('f_ym_client_id');
+                    if (el) el.value = id || '';
+                });
+            } catch (e) {}
+        }
+
+        // ===== ПОДМЕНА ЗАГОЛОВКА ПОД ЗАПРОС =====
+        // Человек искал «уроки барабанов Сыктывкар» — он должен увидеть про барабаны,
+        // а не общий заголовок. Ставь в объявлениях ?d=drums (или utm_content=drums).
+        const DIRECTIONS = {
+            guitar:  { h1: 'Научим играть на <span>гитаре</span> с нуля &mdash; первые песни за 3&ndash;4 недели', sub: 'Индивидуальные занятия в Сыктывкаре. Акустика, электро, классика. <strong>Уже на пробном уроке сыграешь свою первую мелодию.</strong>', label: 'Гитара' },
+            vocal:   { h1: 'Поставим <span>голос</span> и выведем на сцену за 2&ndash;3 месяца', sub: 'Индивидуальные занятия в Сыктывкаре. <strong>Запоёшь на первом уроке</strong> &mdash; даже если думаешь, что нет слуха.', label: 'Вокал' },
+            drums:   { h1: 'Научим играть на <span>барабанах</span> &mdash; первый бит уже на пробном уроке', sub: 'Индивидуальные занятия в Сыктывкаре. Лучший антистресс и драйв живого звука. <strong>Простой бит за 1 урок.</strong>', label: 'Барабаны' },
+            piano:   { h1: 'Научим играть на <span>фортепиано</span> с нуля &mdash; в любом возрасте', sub: 'Индивидуальные занятия в Сыктывкаре. Классика и современность. <strong>Первая мелодия уже на пробном уроке.</strong>', label: 'Фортепиано' },
+            bass:    { h1: 'Научим играть на <span>бас-гитаре</span> &mdash; первый рифф за 2 урока', sub: 'Индивидуальные занятия в Сыктывкаре. Грув и фундамент группы: фанк, рок, джаз.', label: 'Бас-гитара' },
+            ukulele: { h1: 'Научим играть на <span>укулеле</span> &mdash; первая песня за 2 недели', sub: 'Самый быстрый старт в музыке. Индивидуальные занятия в Сыктывкаре для детей с 5 лет и взрослых.', label: 'Укулеле' }
+        };
+        (function () {
+            const url = new URLSearchParams(location.search);
+            const raw = (url.get('d') || traffic.utm_content || traffic.utm_campaign || '').toLowerCase();
+            const key = Object.keys(DIRECTIONS).find(k => raw.includes(k));
+            if (!key) return;
+            const d = DIRECTIONS[key];
+            const h1 = document.getElementById('heroH1');
+            const sub = document.getElementById('heroSub');
+            if (h1) h1.innerHTML = d.h1;
+            if (sub) sub.innerHTML = d.sub;
+            document.title = 'Уроки: ' + d.label + ' в Сыктывкаре — школа музыки «Твоя Сцена»';
+            const sel = document.querySelector('.cta-form select[name="direction"]');
+            if (sel) sel.value = key;
+        })();
+
+        // ===== ЖИВОЙ ДЕДЛАЙН =====
+        // Раньше тут был захардкоженный «апрель». В августе это выглядело как мёртвый сайт.
+        (function () {
+            const MONTHS = ['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+            const el = document.getElementById('heroMonth');
+            if (!el) return;
+            const now = new Date();
+            // После 25-го числа зовём на следующий месяц — иначе дедлайн неправдоподобен.
+            const idx = now.getDate() > 25 ? (now.getMonth() + 1) % 12 : now.getMonth();
+            el.textContent = MONTHS[idx];
+        })();
+
+        // ===== МАСКА ТЕЛЕФОНА =====
+        // Чистый номер = меньше мусорных заявок и меньше ручной правки в CRM.
+        (function () {
+            const input = document.querySelector('.cta-form input[name="phone"]');
+            if (!input) return;
+            input.setAttribute('inputmode', 'tel');
+            input.placeholder = '+7 (___) ___-__-__';
+            function format(v) {
+                let d = v.replace(/\D/g, '');
+                if (d.startsWith('8')) d = '7' + d.slice(1);
+                if (!d.startsWith('7')) d = '7' + d;
+                d = d.slice(0, 11);
+                let out = '+7';
+                if (d.length > 1) out += ' (' + d.slice(1, 4);
+                if (d.length >= 4) out += ')';
+                if (d.length > 4) out += ' ' + d.slice(4, 7);
+                if (d.length > 7) out += '-' + d.slice(7, 9);
+                if (d.length > 9) out += '-' + d.slice(9, 11);
+                return out;
+            }
+            input.addEventListener('input', () => { input.value = format(input.value); });
+            input.addEventListener('focus', () => { if (!input.value) input.value = '+7 ('; });
+            input.addEventListener('blur', () => { if (input.value.replace(/\D/g, '').length < 11) { /* оставляем как есть, валидация ниже */ } });
+        })();
+
+        // ===== ЦЕЛИ: КЛИКИ ПО ТЕЛЕФОНУ / VK =====
+        document.addEventListener('click', (e) => {
+            const a = e.target.closest('a');
+            if (!a) return;
+            if (a.dataset.goal) { goal(a.dataset.goal); return; }
+            const href = a.getAttribute('href') || '';
+            if (href.startsWith('tel:')) goal('phone_click');
+            else if (href.indexOf('vk.com') !== -1 || href.indexOf('vk.me') !== -1) goal('vk_click');
+            else if (href === '#signup') goal('cta_click', { block: a.className || 'link' });
+        });
+
+        // ===== ЦЕЛЬ: НАЧАЛО ЗАПОЛНЕНИЯ ФОРМЫ =====
+        (function () {
+            const form = document.getElementById('signupForm');
+            if (!form) return;
+            let fired = false;
+            form.addEventListener('input', () => { if (!fired) { fired = true; goal('form_start'); } }, true);
+            form.addEventListener('change', () => { if (!fired) { fired = true; goal('form_start'); } }, true);
+        })();
+
         // ===== FORM =====
         const FORM_ENDPOINT = 'https://193-29-225-72.sslip.io:8788';
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
@@ -828,15 +1041,38 @@
             const btn = document.getElementById('signupBtn');
             const status = document.getElementById('formStatus');
             const fd = new FormData(form);
+
+            const phoneDigits = (fd.get('phone') || '').replace(/\D/g, '');
+            status.hidden = true;
+            status.className = 'form-status';
+
+            if (phoneDigits.length !== 11) {
+                status.className = 'form-status error';
+                status.textContent = 'Проверьте номер телефона — нужно 11 цифр.';
+                status.hidden = false;
+                goal('form_error', { reason: 'phone' });
+                return;
+            }
+
             const data = {
                 name: (fd.get('name') || '').trim(),
-                phone: (fd.get('phone') || '').trim(),
+                phone: '+' + phoneDigits,
                 direction: fd.get('direction') || '',
                 age: fd.get('age') || '',
                 website: fd.get('website') || '', // honeypot
+                consent: fd.get('consent') ? 'yes' : 'no',
+                consent_at: new Date().toISOString(),
+                utm_source: fd.get('utm_source') || '',
+                utm_medium: fd.get('utm_medium') || '',
+                utm_campaign: fd.get('utm_campaign') || '',
+                utm_content: fd.get('utm_content') || '',
+                utm_term: fd.get('utm_term') || '',
+                yclid: fd.get('yclid') || '',
+                ym_client_id: fd.get('ym_client_id') || '',
+                page_referrer: fd.get('page_referrer') || '',
+                landing_page: fd.get('landing_page') || ''
             };
-            status.hidden = true;
-            status.className = 'form-status';
+
             btn.disabled = true;
             const oldText = btn.textContent;
             btn.textContent = 'Отправляем...';
@@ -851,24 +1087,42 @@
                     status.className = 'form-status success';
                     status.textContent = '✓ Заявка принята! Перезвоним в течение 10 минут.';
                     status.hidden = false;
+                    // ГЛАВНАЯ ЦЕЛЬ ДИРЕКТА: lead. На ней обучается автостратегия.
+                    goal('lead', {
+                        direction: data.direction,
+                        age: data.age,
+                        source: data.utm_source || 'direct/organic'
+                    });
                     form.reset();
                 } else {
                     let msg = 'Что-то пошло не так. Позвоните нам: +7 (912) 191-06-50';
                     if (j.error === 'too_fast') msg = 'Подождите 30 секунд перед повторной отправкой.';
                     if (j.error === 'invalid_fields') msg = 'Проверьте имя и телефон — что-то введено некорректно.';
                     status.className = 'form-status error';
-                    status.textContent = msg;
+                    status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
                     status.hidden = false;
+                    goal('form_error', { reason: j.error || 'server' });
                 }
             } catch (err) {
                 status.className = 'form-status error';
-                status.textContent = 'Нет связи. Позвоните нам: +7 (912) 191-06-50';
+                status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
                 status.hidden = false;
+                goal('form_error', { reason: 'network' });
             } finally {
                 btn.disabled = false;
                 btn.textContent = oldText;
             }
         });
+
+        // ===== ЦЕЛЬ: ГЛУБОКИЙ ПРОСМОТР (микроконверсия для обучения Директа) =====
+        (function () {
+            let fired = false;
+            window.addEventListener('scroll', () => {
+                if (fired) return;
+                const scrolled = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+                if (scrolled > 0.6) { fired = true; goal('scroll_60'); }
+            }, { passive: true });
+        })();
 
         // ===== SCROLL REVEAL =====
         const observer = new IntersectionObserver((entries) => {
@@ -895,6 +1149,11 @@
         let currentVideo = 0;
 
         totalEl.textContent = videos.length;
+
+        // Цель: человек включил видео с выступлением — сильный сигнал интереса.
+        videos.forEach((v, i) => {
+            v.addEventListener('play', () => goal('video_play', { index: i + 1 }), { once: true });
+        });
 
         function showVideo(index) {
             videos.forEach(v => {

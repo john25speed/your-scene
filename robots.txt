@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /privacy.html
+
+Sitemap: https://tvoyascena.ru/sitemap.xml
+Host: https://tvoyascena.ru
