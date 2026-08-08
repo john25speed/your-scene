@@ -61,7 +61,7 @@
         "addressRegion": "Республика Коми",
         "addressCountry": "RU"
       },
-      "sameAs": ["https://vk.com/your_scene_11sykt"],
+      "sameAs": ["https://vk.ru/your_scene_sykt"],
       "areaServed": "Сыктывкар"
     }
     </script>
@@ -851,7 +851,7 @@
         </form>
         <div class="cta-alt">
             Неудобно заполнять? <a href="tel:+79121910650" data-goal="phone_click">Позвоните: +7 (912) 191-06-50</a>
-            &nbsp;·&nbsp; <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener" data-goal="vk_message">Написать в VK</a>
+            &nbsp;·&nbsp; <a href="https://vk.me/your_scene_sykt" target="_blank" rel="noopener" data-goal="vk_message">Написать в VK</a>
         </div>
     </section>
 
@@ -867,7 +867,7 @@
                 <p>ул. Карла Маркса, 192</p>
                 <p><a href="tel:+79121910650" style="color: var(--yellow); text-decoration: none; font-weight: 700;">+7 (912) 191-06-50</a></p>
                 <div class="footer-social">
-                    <a href="https://vk.com/your_scene_11sykt" target="_blank" aria-label="VK">VK</a>
+                    <a href="https://vk.ru/your_scene_sykt" target="_blank" aria-label="VK">VK</a>
                 </div>
             </div>
             <div class="footer-links">
@@ -882,7 +882,7 @@
             <div class="footer-links">
                 <h4>Контакты</h4>
                 <a href="tel:+79121910650">+7 (912) 191-06-50</a>
-                <a href="https://vk.com/your_scene_11sykt" target="_blank">VK сообщество</a>
+                <a href="https://vk.ru/your_scene_sykt" target="_blank">VK сообщество</a>
                 <a href="https://yandex.ru/maps/?text=Сыктывкар, улица Карла Маркса, 192" target="_blank" rel="noopener">г. Сыктывкар, ул. Карла Маркса, 192</a>
             </div>
         </div>
@@ -1017,7 +1017,7 @@
             if (a.dataset.goal) { goal(a.dataset.goal); return; }
             const href = a.getAttribute('href') || '';
             if (href.startsWith('tel:')) goal('phone_click');
-            else if (href.indexOf('vk.com') !== -1 || href.indexOf('vk.me') !== -1) goal('vk_click');
+            else if (href.indexOf('vk.ru') !== -1 || href.indexOf('vk.com') !== -1 || href.indexOf('vk.me') !== -1) goal('vk_click');
             else if (href === '#signup') goal('cta_click', { block: a.className || 'link' });
         });
 
@@ -1096,13 +1096,13 @@
                     if (j.error === 'too_fast') msg = 'Подождите 30 секунд перед повторной отправкой.';
                     if (j.error === 'invalid_fields') msg = 'Проверьте имя и телефон — что-то введено некорректно.';
                     status.className = 'form-status error';
-                    status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
+                    status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
                     status.hidden = false;
                     goal('form_error', { reason: j.error || 'server' });
                 }
             } catch (err) {
                 status.className = 'form-status error';
-                status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
+                status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
                 status.hidden = false;
                 goal('form_error', { reason: 'network' });
             } finally {
