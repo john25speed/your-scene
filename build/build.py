@@ -259,7 +259,7 @@ JS = """
             if (a.dataset.goal) { goal(a.dataset.goal); return; }
             const h = a.getAttribute('href') || '';
             if (h.startsWith('tel:')) goal('phone_click');
-            else if (h.indexOf('vk.com') !== -1 || h.indexOf('vk.me') !== -1) goal('vk_click');
+            else if (h.indexOf('vk.ru') !== -1 || h.indexOf('vk.com') !== -1 || h.indexOf('vk.me') !== -1) goal('vk_click');
             else if (h === '#signup') goal('cta_click');
         });
 
@@ -367,13 +367,13 @@ JS = """
                         if (j.error === 'too_fast') msg = 'Подождите 30 секунд перед повторной отправкой.';
                         if (j.error === 'invalid_fields') msg = 'Проверьте имя и телефон — что-то введено некорректно.';
                         status.className = 'form-status js-status error';
-                        status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
+                        status.innerHTML = msg + '<div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_sykt" target="_blank" rel="noopener">VK</a> — ответим так же быстро.</div>';
                         status.hidden = false;
                         goal('form_error', { reason: j.error || 'server', place: place });
                     }
                 } catch (err) {
                     status.className = 'form-status js-status error';
-                    status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_11sykt" target="_blank" rel="noopener">VK</a>.</div>';
+                    status.innerHTML = 'Нет связи с сервером. Позвоните: <a href="tel:+79121910650">+7 (912) 191-06-50</a><div class="form-fallback">Или напишите в <a href="https://vk.me/your_scene_sykt" target="_blank" rel="noopener">VK</a>.</div>';
                     status.hidden = false;
                     goal('form_error', { reason: 'network', place: place });
                 } finally { btn.disabled = false; btn.textContent = old; }
@@ -559,7 +559,7 @@ def build():
                         "addressCountry": "RU"
                     },
                     "areaServed": "Сыктывкар",
-                    "sameAs": ["https://vk.com/your_scene_11sykt"]
+                    "sameAs": ["https://vk.ru/your_scene_sykt"]
                 },
                 {
                     "@type": "FAQPage",
