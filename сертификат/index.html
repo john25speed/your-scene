@@ -64,9 +64,8 @@ h1 em{font-style:normal;color:var(--yellow)}
 .lead{font-size:1.02rem;color:var(--gray);margin-bottom:24px}
 .lead b{color:var(--text);font-weight:600}
 
-.hero-photos{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:88px 88px;gap:7px;margin:24px 0 6px}
-.hero-photos img{width:100%;height:100%;object-fit:cover;display:block}
-.hero-photos img:first-child{grid-row:span 2}
+.hero-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:24px 0 7px}
+.hero-photos img{width:100%;height:100px;object-fit:cover;display:block}
 .hero-cap{font-size:.74rem;color:#6a6a6a;letter-spacing:.4px;margin-bottom:24px}
 
 .btn{display:block;width:100%;text-align:center;background:var(--yellow);color:#0a0a0a;
@@ -114,9 +113,6 @@ h2{font-size:clamp(1.5rem,4vw,2rem);font-weight:900;text-transform:uppercase;mar
 .stat-n{font-size:1.6rem;font-weight:900;color:var(--yellow);line-height:1}
 .stat-t{font-size:.72rem;color:var(--gray);margin-top:7px;text-transform:uppercase;letter-spacing:.5px}
 
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0}
-.gallery img{width:100%;height:112px;object-fit:cover;display:block}
-
 .form-wrap{background:var(--card);border:1px solid var(--line);padding:26px 20px;margin:22px 0 10px}
 label{display:block;font-size:.76rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin:0 0 8px}
 .req{color:var(--yellow)}
@@ -145,8 +141,8 @@ footer a{color:var(--gray);text-decoration:none}
 
 @media(min-width:640px){
   .cards{grid-template-columns:repeat(3,1fr)}
-  .gallery img{height:158px}
-  .hero-photos{grid-template-rows:120px 120px}
+  .hero-photos{grid-template-columns:repeat(6,1fr)}
+  .hero-photos img{height:120px}
   .hero .btn{width:auto;display:inline-block;padding:18px 48px}
   .btn-note{text-align:left}
 }
@@ -170,10 +166,11 @@ footer a{color:var(--gray);text-decoration:none}
     <p class="lead">Гитара, вокал, барабаны, фортепиано, бас-гитара, укулеле — <b>направление на выбор</b>. Занятия один на один в центре Сыктывкара.</p>
 
     <div class="hero-photos">
-      <img src="https://tvoyascena.ru/assets/photos/hero-guitar.webp" alt="Индивидуальный урок игры на гитаре в школе «Твоя Сцена», Сыктывкар">
+      <img src="https://tvoyascena.ru/assets/photos/hero-guitar.webp" alt="Урок игры на гитаре в школе «Твоя Сцена», Сыктывкар">
       <img src="https://tvoyascena.ru/assets/photos/hero-vocal.webp" alt="Занятие по вокалу с преподавателем">
       <img src="https://tvoyascena.ru/assets/photos/hero-drums.webp" alt="Урок игры на барабанах">
       <img src="https://tvoyascena.ru/assets/photos/hero-piano.webp" alt="Занятие на фортепиано" loading="lazy">
+      <img src="https://tvoyascena.ru/assets/photos/hero-ukulele.webp" alt="Урок игры на укулеле" loading="lazy">
       <img src="https://tvoyascena.ru/assets/photos/interior-1.webp" alt="Класс школы музыки на Карла Маркса, 192" loading="lazy">
     </div>
     <p class="hero-cap">Наши классы и занятия — Сыктывкар, Карла Маркса, 192, 6 этаж</p>
@@ -236,12 +233,6 @@ footer a{color:var(--gray);text-decoration:none}
     <div class="stat"><div class="stat-n">100+</div><div class="stat-t">учеников<br>на сцене</div></div>
     <div class="stat"><div class="stat-n">0</div><div class="stat-t">групповых<br>уроков</div></div>
     <div class="stat"><div class="stat-n">6</div><div class="stat-t">направлений<br>на выбор</div></div>
-  </div>
-
-  <div class="gallery">
-    <img src="https://tvoyascena.ru/assets/photos/guitar-1.webp" alt="Ученик школы «Твоя Сцена» с электрогитарой на концерте" loading="lazy">
-    <img src="https://tvoyascena.ru/assets/photos/vocal-1.webp" alt="Выступление ученицы школы, вокал" loading="lazy">
-    <img src="https://tvoyascena.ru/assets/photos/drums-1.webp" alt="Ученик за барабанной установкой" loading="lazy">
   </div>
 
   <section id="form">
