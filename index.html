@@ -126,10 +126,10 @@
         .hero-content { position: relative; z-index: 2; max-width: 900px; }
         .h1-key { display:block; font-size: clamp(15px,2vw,19px); font-weight:600; letter-spacing:.04em; text-transform:uppercase; opacity:.8; margin-bottom:10px; line-height:1.3; }
         .hero-badge { display: inline-block; background: rgba(255, 214, 0, 0.15); border: 1px solid rgba(255, 214, 0, 0.3); color: var(--yellow); padding: 8px 24px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; }
-        .hero h1 { font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; line-height: 1.05; margin-bottom: 24px; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(2rem, 5.4vw, 4.6rem); font-weight: 900; line-height: 1.05; margin-bottom: 24px; text-transform: uppercase; }
         .hero h1 span { color: var(--yellow); display: block; }
         .hero p { font-size: 1.15rem; color: var(--gray); max-width: 600px; margin: 0 auto 20px; line-height: 1.7; }
-        .hero-urgency { display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 50, 50, 0.1); border: 1px solid rgba(255, 50, 50, 0.3); color: #ff6b6b; padding: 10px 24px; font-size: 0.85rem; font-weight: 600; margin-bottom: 30px; }
+        .hero-urgency { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; text-align: center; background: rgba(255, 50, 50, 0.1); border: 1px solid rgba(255, 50, 50, 0.3); color: #ff6b6b; padding: 10px 24px; font-size: 0.85rem; font-weight: 600; margin-bottom: 30px; }
         .urgency-dot { width: 8px; height: 8px; background: #ff4444; border-radius: 50%; display: inline-block; animation: blink 1.5s ease-in-out infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
@@ -139,6 +139,11 @@
         .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
         .hero-micro-proof { margin-top: 16px; color: var(--gray); font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; }
         .hero-micro-fast { margin-top: 14px; color: var(--light-gray); font-size: 0.85rem; font-weight: 600; }
+        .hero-price { margin: 20px auto 4px; display: inline-flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 8px 14px; border: 1px solid rgba(255,214,0,.35); background: rgba(255,214,0,.07); padding: 14px 26px; }
+        .hero-price b { color: var(--yellow); font-size: 1.45rem; font-weight: 900; letter-spacing: .5px; }
+        .hero-price span { color: var(--light-gray); font-size: .92rem; font-weight: 600; }
+        .hero-price em { color: #fff; font-style: normal; font-weight: 800; font-size: .92rem; }
+        @media (max-width: 560px) { .hero-price { padding: 13px 18px; gap: 6px 10px; } .hero-price b { font-size: 1.25rem; } }
 
         /* ===== TRIAL LESSON BLOCK ===== */
         .trial-lesson { padding: 90px 40px; background: linear-gradient(180deg, var(--black) 0%, rgba(255, 214, 0, 0.04) 100%); position: relative; z-index: 2; }
@@ -500,6 +505,25 @@
             .health-grid { grid-template-columns: 1fr; }
             #notesCanvas { display: block; opacity: 0.32; }
         }
+    
+        /* ===== МОДАЛКА ЗАПИСИ ===== */
+        .sg-modal { position: fixed; inset: 0; z-index: 1000; display: none; }
+        .sg-modal.open { display: block; }
+        .sg-modal__back { position: absolute; inset: 0; background: rgba(0,0,0,.82); backdrop-filter: blur(4px); }
+        .sg-modal__win { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+            width: min(560px, calc(100vw - 28px)); max-height: calc(100vh - 40px); overflow-y: auto;
+            background: #111; border: 1px solid rgba(255,214,0,.28); padding: 34px 28px 28px; }
+        .sg-modal__close { position: absolute; top: 10px; right: 14px; background: none; border: none;
+            color: #888; font-size: 2rem; line-height: 1; cursor: pointer; padding: 4px 8px; }
+        .sg-modal__close:hover { color: var(--yellow); }
+        .sg-modal__title { font-size: clamp(1.4rem, 5vw, 1.9rem); font-weight: 900; text-transform: uppercase;
+            margin-bottom: 8px; line-height: 1.15; }
+        .sg-modal__title span { color: var(--yellow); }
+        .sg-modal__sub { color: var(--gray); font-size: .95rem; margin-bottom: 8px; }
+        .sg-modal__price { color: var(--light-gray); font-size: .88rem; margin-bottom: 22px; }
+        .sg-modal__price b { color: var(--yellow); }
+        body.sg-lock { overflow: hidden; }
+        @media (max-width: 560px) { .sg-modal__win { padding: 30px 18px 22px; } }
     </style>
 </head>
 <body>
@@ -526,9 +550,9 @@
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-badge">Школа музыки в Сыктывкаре</div>
             <h1 id="heroH1"><span class="h1-key">Школа музыки в Сыктывкаре</span>Научим играть с нуля и выведем <span>на сцену</span> за 2&ndash;3 месяца</h1>
             <p id="heroSub">Индивидуальные занятия для взрослых и детей. <strong>Уже на первом уроке сыграешь свою первую мелодию.</strong></p>
+            <div class="hero-price"><b>6 900 &#8381;/месяц</b> <span>&mdash; 4 индивидуальных занятия по часу.</span> <em>Первый урок бесплатно.</em></div>
             <div class="hero-urgency">
                 <span class="urgency-dot"></span>
                 Осталось <strong>3 места</strong> на <span id="heroMonth">этот месяц</span> &mdash; индивидуальный формат ограничен
@@ -592,7 +616,7 @@
             <a class="direction-card simple" href="/%D1%83%D0%BA%D1%83%D0%BB%D0%B5%D0%BB%D0%B5/">
                 <span class="direction-icon">🎵</span>
                 <h3>Укулеле</h3>
-                <p>Самый быстрый старт. <strong>Первая песня за 2 недели</strong>. Для детей с 5 лет и взрослых.</p>
+                <p>Самый быстрый старт. <strong>Первая песня за 2 недели</strong>. Для детей с 8 лет и взрослых.</p>
             </a>
         </div>
     </section>
@@ -637,8 +661,8 @@
             <div class="advantage-item">
                 <div class="advantage-number">03</div>
                 <div>
-                    <h3>От 5 лет до 65+</h3>
-                    <p>Самому младшему — 5, старшему — 62. Оба играют на концертах. Возраст — не препятствие.</p>
+                    <h3>От 8 лет до 65+</h3>
+                    <p>Самому младшему — 8, старшему — 62. Оба играют на концертах. Возраст — не препятствие.</p>
                 </div>
             </div>
             <div class="advantage-item">
@@ -770,7 +794,7 @@
             <p>Музыка не знает ограничений по возрасту и профессии</p>
         </div>
         <div class="for-who-grid">
-            <div class="for-who-card"><span class="emoji">👦</span><h3>Дети от 5 лет</h3><p>Развитие через музыку: слух, координация, дисциплина и уверенность на сцене.</p></div>
+            <div class="for-who-card"><span class="emoji">👦</span><h3>Дети от 8 лет</h3><p>Развитие через музыку: слух, координация, дисциплина и уверенность на сцене.</p></div>
             <div class="for-who-card"><span class="emoji">👩‍💻</span><h3>Взрослые</h3><p>Давно хотели, но &laquo;некогда&raquo; и &laquo;поздно&raquo;? Неправда. Начните сейчас &mdash; результат будет.</p></div>
             <div class="for-who-card"><span class="emoji">🎯</span><h3>С нуля</h3><p>Никакой подготовки не нужно. Всему научим &mdash; от первой ноты до сцены.</p></div>
             <div class="for-who-card"><span class="emoji">🔥</span><h3>Продвинутые</h3><p>Есть база, но хотите больше? Углубим технику и доведём до выступления.</p></div>
@@ -811,7 +835,7 @@
             </select>
             <select name="age" required>
                 <option value="" disabled selected>Возраст ученика</option>
-                <option value="child">Ребёнок (5-12 лет)</option>
+                <option value="child">Ребёнок (8-12 лет)</option>
                 <option value="teen">Подросток (13-17 лет)</option>
                 <option value="adult">Взрослый (18+)</option>
             </select>
@@ -942,7 +966,7 @@
             drums:   { h1: 'Научим играть на <span>барабанах</span> &mdash; первый бит уже на пробном уроке', sub: 'Индивидуальные занятия в Сыктывкаре. Лучший антистресс и драйв живого звука. <strong>Простой бит за 1 урок.</strong>', label: 'Барабаны' },
             piano:   { h1: 'Научим играть на <span>фортепиано</span> с нуля &mdash; в любом возрасте', sub: 'Индивидуальные занятия в Сыктывкаре. Классика и современность. <strong>Первая мелодия уже на пробном уроке.</strong>', label: 'Фортепиано' },
             bass:    { h1: 'Научим играть на <span>бас-гитаре</span> &mdash; первый рифф за 2 урока', sub: 'Индивидуальные занятия в Сыктывкаре. Грув и фундамент группы: фанк, рок, джаз.', label: 'Бас-гитара' },
-            ukulele: { h1: 'Научим играть на <span>укулеле</span> &mdash; первая песня за 2 недели', sub: 'Самый быстрый старт в музыке. Индивидуальные занятия в Сыктывкаре для детей с 5 лет и взрослых.', label: 'Укулеле' }
+            ukulele: { h1: 'Научим играть на <span>укулеле</span> &mdash; первая песня за 2 недели', sub: 'Самый быстрый старт в музыке. Индивидуальные занятия в Сыктывкаре для детей с 8 лет и взрослых.', label: 'Укулеле' }
         };
         (function () {
             const url = new URLSearchParams(location.search);
@@ -1460,5 +1484,59 @@
         }
     </script>
 
+    <!-- ===== МОДАЛКА ЗАПИСИ: форма переезжает в попап, обработчики и цели сохраняются ===== -->
+    <div class="sg-modal" id="sgModal" role="dialog" aria-modal="true">
+        <div class="sg-modal__back" data-sg-close></div>
+        <div class="sg-modal__win">
+            <button class="sg-modal__close" type="button" data-sg-close aria-label="Закрыть">&times;</button>
+            <div class="sg-modal__title">Запишись на <span>пробный урок</span></div>
+            <div class="sg-modal__sub">Бесплатно. Целый час. Уже на первом занятии сыграешь свою первую мелодию.</div>
+            <div class="sg-modal__price"><b>6&nbsp;900&nbsp;&#8381;/месяц</b> — 4 индивидуальных занятия по часу. Пробный бесплатный, без предоплаты.</div>
+            <div id="sgModalSlot"></div>
+        </div>
+    </div>
+    <script>
+    (function () {
+        var modal = document.getElementById("sgModal");
+        var slot  = document.getElementById("sgModalSlot");
+        var form  = document.getElementById("signupForm");
+        var alt   = document.querySelector(".cta-alt");
+        if (!modal || !slot || !form) return;
+        var anchor = document.createComment("sg-form-home");
+        form.parentNode.insertBefore(anchor, form);
+        var altAnchor = null;
+        if (alt) { altAnchor = document.createComment("sg-alt-home"); alt.parentNode.insertBefore(altAnchor, alt); }
+        function openModal(src) {
+            if (modal.classList.contains("open")) return;
+            slot.appendChild(form);
+            if (alt) slot.appendChild(alt);
+            modal.classList.add("open");
+            document.body.classList.add("sg-lock");
+            try { if (window.goal) goal("signup_modal_open", { src: src }); } catch (e) {}
+            setTimeout(function () {
+                var f = form.querySelector("input[name=name]");
+                if (f && window.innerWidth > 760) f.focus();
+            }, 120);
+        }
+        function closeModal() {
+            if (!modal.classList.contains("open")) return;
+            anchor.parentNode.insertBefore(form, anchor);
+            if (alt && altAnchor) altAnchor.parentNode.insertBefore(alt, altAnchor);
+            modal.classList.remove("open");
+            document.body.classList.remove("sg-lock");
+        }
+        document.addEventListener("click", function (e) {
+            if (e.target.closest("[data-sg-close]")) { e.preventDefault(); closeModal(); return; }
+            var a = e.target.closest("a");
+            if (!a) return;
+            var href = a.getAttribute("href") || "";
+            if (href.charAt(href.length - 1) !== "p" || href.indexOf("#signup") === -1) return;
+            e.preventDefault();
+            openModal(a.className || "link");
+        });
+        document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+        window.sgCloseSignupModal = closeModal;
+    })();
+    </script>
 </body>
 </html>
