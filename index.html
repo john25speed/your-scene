@@ -139,11 +139,15 @@
         .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
         .hero-micro-proof { margin-top: 16px; color: var(--gray); font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; }
         .hero-micro-fast { margin-top: 14px; color: var(--light-gray); font-size: 0.85rem; font-weight: 600; }
-        .hero-price { margin: 20px auto 4px; display: inline-flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 8px 14px; border: 1px solid rgba(255,214,0,.35); background: rgba(255,214,0,.07); padding: 14px 26px; }
-        .hero-price b { color: var(--yellow); font-size: 1.45rem; font-weight: 900; letter-spacing: .5px; }
-        .hero-price span { color: var(--light-gray); font-size: .92rem; font-weight: 600; }
-        .hero-price em { color: #fff; font-style: normal; font-weight: 800; font-size: .92rem; }
-        @media (max-width: 560px) { .hero-price { padding: 13px 18px; gap: 6px 10px; } .hero-price b { font-size: 1.25rem; } }
+        .hero-price { margin: 20px auto 4px; display: inline-flex; flex-direction: column; align-items: center; gap: 9px; border: 1px solid rgba(255,214,0,.35); background: rgba(255,214,0,.07); padding: 16px 28px; }
+        .hero-price__main { display: inline-flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 6px 12px; }
+        .hero-price__stage { display: inline-flex; align-items: center; gap: 9px; padding-top: 9px; border-top: 1px solid rgba(255,214,0,.22); color: #fff; font-size: .9rem; font-weight: 700; flex-wrap: wrap; justify-content: center; }
+        .hero-price__stage i { font-style: normal; color: var(--yellow); font-size: 1rem; }
+        .hero-price__stage s { text-decoration: none; color: var(--gray); font-weight: 600; }
+        .hero-price__main b { color: var(--yellow); font-size: 1.45rem; font-weight: 900; letter-spacing: .5px; }
+        .hero-price__main span { color: var(--light-gray); font-size: .92rem; font-weight: 600; }
+        .hero-price__main em { color: #fff; font-style: normal; font-weight: 800; font-size: .92rem; }
+        @media (max-width: 560px) { .hero-price { padding: 14px 16px; } .hero-price__main b { font-size: 1.25rem; } .hero-price__stage { font-size: .84rem; } }
 
         /* ===== TRIAL LESSON BLOCK ===== */
         .trial-lesson { padding: 90px 40px; background: linear-gradient(180deg, var(--black) 0%, rgba(255, 214, 0, 0.04) 100%); position: relative; z-index: 2; }
@@ -569,7 +573,10 @@
         <div class="hero-content">
             <h1 id="heroH1"><span class="h1-key">Школа музыки в Сыктывкаре</span>Научим играть с нуля и выведем <span>на сцену</span> за 2&ndash;3 месяца</h1>
             <p id="heroSub">Индивидуальные занятия для взрослых и детей. <strong>Уже на первом уроке сыграешь свою первую мелодию.</strong></p>
-            <div class="hero-price"><b>6 900 &#8381;/месяц</b> <span>&mdash; 4 индивидуальных занятия по часу.</span> <em>Первый урок бесплатно.</em></div>
+            <div class="hero-price">
+                <div class="hero-price__main"><b>6 900 &#8381;/месяц</b> <span>&mdash; 4 занятия по часу,</span> <em>один на один с преподавателем</em></div>
+                <div class="hero-price__stage"><i>&#9733;</i> Заканчиваешь не зачётом в классе, а концертом на сцене <s>&middot; первый урок бесплатно</s></div>
+            </div>
             <div class="hero-urgency">
                 <span class="urgency-dot"></span>
                 Осталось <strong>3 места</strong> на <span id="heroMonth">этот месяц</span> &mdash; индивидуальный формат ограничен
