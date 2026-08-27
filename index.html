@@ -524,6 +524,23 @@
         .sg-modal__price b { color: var(--yellow); }
         body.sg-lock { overflow: hidden; }
         @media (max-width: 560px) { .sg-modal__win { padding: 30px 18px 22px; } }
+    
+        /* ===== ОТЗЫВЫ ===== */
+        .reviews { padding: 90px 40px; background: linear-gradient(180deg, #0d0d0d 0%, var(--black) 100%); }
+        .reviews-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start; }
+        .review { background: #141414; border: 1px solid rgba(255,255,255,.07); padding: 26px 24px 22px; display: flex; flex-direction: column; gap: 14px; }
+        .review--wide { grid-column: span 2; border-color: rgba(255,214,0,.22); background: #16150f; }
+        .review-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .review-name { font-weight: 800; font-size: 1.02rem; letter-spacing: .3px; }
+        .review-stars { color: var(--yellow); font-size: .95rem; letter-spacing: 2px; }
+        .review-date { color: #777; font-size: .78rem; margin-left: auto; white-space: nowrap; }
+        .review-text { color: var(--light-gray); font-size: 1rem; line-height: 1.65; }
+        .review-src { display: inline-flex; align-items: center; gap: 7px; color: #7d7d7d; font-size: .74rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; margin-top: auto; padding-top: 4px; }
+        .review-src b { color: var(--yellow); font-weight: 700; }
+        .reviews-foot { max-width: 1180px; margin: 34px auto 0; text-align: center; }
+        .reviews-foot a { color: var(--yellow); font-weight: 700; text-decoration: none; border-bottom: 1px solid rgba(255,214,0,.35); padding-bottom: 2px; }
+        .reviews-foot a:hover { border-bottom-color: var(--yellow); }
+        @media (max-width: 900px) { .review--wide { grid-column: span 1; } .reviews { padding: 70px 20px; } }
     </style>
 </head>
 <body>
@@ -814,6 +831,80 @@
             <div class="objection-card"><div class="objection-q">&laquo;У меня нет слуха&raquo;</div><div class="objection-a">Слух &mdash; это навык, а не дар. Он тренируется. Мы это делаем каждый день.</div></div>
             <div class="objection-card"><div class="objection-q">&laquo;Это дорого&raquo;</div><div class="objection-a">Чашка кофе в день = месяц занятий. Кофе забудется к вечеру. Музыка останется навсегда.</div></div>
             <div class="objection-card"><div class="objection-q">&laquo;У меня нет времени&raquo;</div><div class="objection-a">1 час в неделю. Меньше, чем серия сериала. Только через месяц ты уже играешь, а не смотришь.</div></div>
+        </div>
+    </section>
+
+    <!-- ОТЗЫВЫ -->
+    <section class="reviews" id="reviews">
+        <div class="section-title">
+            <h2>Что говорят <span>ученики</span></h2>
+            <p>Отзывы с Яндекс.Карт и из переписки. Ничего не переписывали.</p>
+        </div>
+        <div class="reviews-grid">
+
+            <div class="review">
+                <div class="review-head">
+                    <div>
+                        <div class="review-name">Анна Ч.</div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                    <div class="review-date">1 июля 2025</div>
+                </div>
+                <p class="review-text">Сегодня с сыном посетили пробное занятие по игре на барабанах. Испытали массу положительных эмоций. Спасибо преподавателю Артёму! Человек прямо &laquo;дышит&raquo; творчеством и заряжает всех вокруг. Очень интересно и понятно. Всем рекомендуем это заведение!</p>
+                <div class="review-src">Отзыв на <b>Яндекс.Картах</b></div>
+            </div>
+
+            <div class="review">
+                <div class="review-head">
+                    <div>
+                        <div class="review-name">Софья Дьякова</div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                    <div class="review-date">10 апреля 2025</div>
+                </div>
+                <p class="review-text">Занимаюсь здесь уже 2 года, очень люблю эту школу) Всё очень круто &mdash; и уроки, и отчётники, преподы просто огонь. Всегда мотивируют продолжать заниматься и развиваться))</p>
+                <div class="review-src">Отзыв на <b>Яндекс.Картах</b></div>
+            </div>
+
+            <div class="review review--wide">
+                <div class="review-head">
+                    <div>
+                        <div class="review-name">Карина, мама ученицы</div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                    <div class="review-date">после первого занятия</div>
+                </div>
+                <p class="review-text">Моя мечта сбылась &mdash; девочка влюбилась) Щебетала всю дорогу домой о том, как прошёл её день, рассказывала всё в подробностях. Про каждого человека, про свои эмоции. Мы её уже очень давно не видели такой эмоционально&amp;nbsp;взбудораженной. В общем, это счастье для всей семьи. Благодарю вас за чуткое отношение и открытость навстречу ребёнку!</p>
+                <div class="review-src">Сообщение <b>ВКонтакте</b></div>
+            </div>
+
+            <div class="review">
+                <div class="review-head">
+                    <div>
+                        <div class="review-name">Kira P.</div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                    <div class="review-date">5 июля 2025</div>
+                </div>
+                <p class="review-text">Мне всё очень понравилось, с преподавателями на одной волне, что правда круто. Если давно хотели заниматься музыкой &mdash; это вам к этим ребяткам, они крутые.</p>
+                <div class="review-src">Отзыв на <b>Яндекс.Картах</b></div>
+            </div>
+
+            <div class="review">
+                <div class="review-head">
+                    <div>
+                        <div class="review-name">Елена Шубарина</div>
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                    <div class="review-date">17 сентября 2025</div>
+                </div>
+                <p class="review-text">Пришли на бесплатное пробное занятие игры на гитаре. Очень понравилось. Будем ходить!</p>
+                <div class="review-src">Отзыв на <b>Яндекс.Картах</b></div>
+            </div>
+
+        </div>
+        <div class="reviews-foot">
+            <a href="https://yandex.ru/maps/org/tvoya_stsena/144019430952/reviews/" target="_blank" rel="noopener" data-goal="reviews_maps">Все отзывы на Яндекс.Картах &rarr;</a>
         </div>
     </section>
 
